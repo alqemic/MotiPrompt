@@ -8,6 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+kivy = "^2.3.0"
 
 
 [build-system]
