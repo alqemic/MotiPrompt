@@ -1,7 +1,14 @@
+# Python
 __pycache__
 *.pyc
 .pytest_cache
 .python-version
 .vscode
 *.egg-info
+
+# Docs
 docs/**/*.md
+
+# APK creation
+motiprompt/bin
+motiprompt/.buildozer
