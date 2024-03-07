@@ -1,6 +1,8 @@
 <MyRoot>:
 
     random_label: random_label
+    min_val: min_val
+    max_val: max_val
 
     BoxLayout:
         orientation: "vertical"
@@ -8,6 +10,14 @@
             text: "MotiPrompt"
             font_size: 64
             color: 0.92, 0.45, 0, 1
+        Label:
+            id: min_val
+            text: "-"
+            font_size: 20
+        Label:
+            id: max_val
+            text: "-"
+            font_size: 20
         Label:
             id: random_label
             text: "-"
@@ -17,3 +27,8 @@
             font_size: 32
             size: 100, 50
             on_press: root.generate_number()
+        Button:
+            text: "Configure"
+            font_size: 32
+            size: 100, 50
+            on_release: app.open_settings()
