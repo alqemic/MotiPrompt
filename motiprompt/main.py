@@ -10,8 +10,8 @@ import random
 
 kivy.require('2.3.0')
 
-# This JSON defines entries we want to appear in our App configuration screen
-json = '''
+
+settings_json = '''
 [
     {
         "type": "numeric",
@@ -30,26 +30,25 @@ json = '''
 ]
 '''
 
+
 class MyRoot(BoxLayout):
 
     def __init__(self, **kwargs):
         super(MyRoot, self).__init__(**kwargs)
 
     def generate_number(self):
-        self.random_label.text = str(random.randint(self.min_val, self.max_val))
+        self.random_label.text = str(random.randint(int(self.min_val.text), int(self.max_val.text)))
 
 
 class MotiPrompt(App):
 
     def build(self):
-        self.settings_cls = MySettingsWithTabbedPanel
+        self.settings_cls = SettingsWithTabbedPanel
 
         # We apply the saved configuration settings or the defaults
         root = MyRoot()
-        min_val = int(self.config.get('My Settings', 'min_val'))
-        max_val = int(self.config.get('My Settings', 'max_val'))
-        root.min_val = min_val
-        root.max_val = max_val
+        root.ids.min_val.text = self.config.get('My Settings', 'min_val')
+        root.ids.max_val.text = self.config.get('My Settings', 'max_val')
         return root
 
     def build_config(self, config):
@@ -62,10 +61,7 @@ class MotiPrompt(App):
         """
         Add our custom section to the default configuration object.
         """
-        # We use the string defined above for our JSON, but it could also be
-        # loaded from a file as follows:
-        #     settings.add_json_panel('My Settings', self.config, 'settings.json')
-        settings.add_json_panel('My Settings', self.config, data=json)
+        settings.add_json_panel('My Settings', self.config, data=settings_json)
 
     def on_config_change(self, config, section, key, value):
         """
@@ -76,9 +72,9 @@ class MotiPrompt(App):
 
         if section == "My Settings":
             if key == "min_val":
-                self.root.ids.min_val = int(value)
+                self.root.ids.min_val.text = value
             elif key == "max_val":
-                self.root.ids.max_val = int(value)
+                self.root.ids.max_val.text = value
 
     def close_settings(self, settings=None):
         """
@@ -87,18 +83,6 @@ class MotiPrompt(App):
         Logger.info("main.py: App.close_settings: {0}".format(settings))
         super(MotiPrompt, self).close_settings(settings)
 
-# Settings
-        
-
-class MySettingsWithTabbedPanel(SettingsWithTabbedPanel):
-
-    def on_close(self):
-        Logger.info("main.py: MySettingsWithTabbedPanel.on_close")
-
-    def on_config_change(self, config, section, key, value):
-        Logger.info(
-            "main.py: MySettingsWithTabbedPanel.on_config_change: "
-            "{0}, {1}, {2}, {3}".format(config, section, key, value))
 
 if __name__ == '__main__':
     MotiPrompt().run()

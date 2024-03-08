@@ -1,0 +1,16 @@
+[
+    {
+        "type": "numeric",
+        "title": "Minimum",
+        "desc": "Choose the minimum value for random generator",
+        "section": "My Settings",
+        "key": "min_val"
+    },
+    {
+        "type": "numeric",
+        "title": "Maximum",
+        "desc": "Choose the maximum value for random generator",
+        "section": "My Settings",
+        "key": "max_val"
+    }
+]
