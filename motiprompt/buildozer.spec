@@ -44,10 +44,10 @@ requirements = python3,kivy
 # requirements.source.kivy = ../../kivy
 
 # (str) Presplash of the application
-presplash.filename = src/moti-presplash.png
+presplash.filename = assets/presplash.png
 
 # (str) Icon of the application
-icon.filename = src/moti-icon.png
+icon.filename = assets/icon.png
 
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse
