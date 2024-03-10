@@ -1,3 +1,4 @@
+import json
 import kivy
 from kivy.app import App
 from kivy.config import ConfigParser
@@ -35,6 +36,16 @@ class MyRoot(BoxLayout):
 
     def __init__(self, **kwargs):
         super(MyRoot, self).__init__(**kwargs)
+
+    def get_quote(self):
+        with open('motiprompt/quotes/default.json', 'r') as file:
+            quotes = json.load(file)
+        random_quote = random.choice(quotes)
+        quote_text = random_quote.get('text', 'Unknown Text')
+        quote_author = random_quote.get('author', 'Unknown Author')
+
+        self.random_quote.text =f'"{quote_text}"\n\n  {quote_author}'
+
 
     def generate_number(self):
         self.random_label.text = str(random.randint(int(self.min_val.text), int(self.max_val.text)))

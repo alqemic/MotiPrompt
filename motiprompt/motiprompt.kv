@@ -1,6 +1,7 @@
 <MyRoot>:
 
     random_label: random_label
+    random_quote: random_quote
     min_val: min_val
     max_val: max_val
 
@@ -11,19 +12,28 @@
             font_size: 64
             color: 0.92, 0.45, 0, 1
         Label:
+            id: random_quote
+            text: "-"
+            font_size: 32
+        Label:
             id: min_val
             text: "-"
-            font_size: 20
+            font_size: 10
         Label:
             id: max_val
             text: "-"
-            font_size: 20
+            font_size: 10
         Label:
             id: random_label
             text: "-"
-            font_size: 48
+            font_size: 24
         Button:
-            text: "Generate"
+            text: "Generate quote"
+            font_size: 32
+            size: 100, 50
+            on_press: root.get_quote()
+        Button:
+            text: "Generate number"
             font_size: 32
             size: 100, 50
             on_press: root.generate_number()
