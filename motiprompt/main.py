@@ -40,11 +40,12 @@ class MyRoot(BoxLayout):
     def get_quote(self):
         with open('motiprompt/quotes/default.json', 'r') as file:
             quotes = json.load(file)
-        random_quote = random.choice(quotes)
-        quote_text = random_quote.get('text', 'Unknown Text')
-        quote_author = random_quote.get('author', 'Unknown Author')
+        rquote = random.choice(quotes)
+        quote_text = rquote.get('text', 'Unknown Text')
+        quote_author = rquote.get('author', 'Unknown Author')
 
-        self.random_quote.text =f'"{quote_text}"\n\n  {quote_author}'
+        self.quote_text.text = f'"{quote_text}"'
+        self.quote_author.text = f'~ {quote_author} ~'
 
 
     def generate_number(self):
