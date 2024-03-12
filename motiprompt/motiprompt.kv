@@ -22,10 +22,18 @@
                 id: quote_text
                 text: "-"
                 font_size: 32
+                color: 0.92, 0.45, 0, 1
             Label:
+                canvas.before:
+                    Color:
+                        rgba: 0, 1, 0, 0.5
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [10]
                 id: quote_author
                 text: "-"
-                font_size: 32
+                font_size: 20
         Label:
             id: min_val
             text: "-"
