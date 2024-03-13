@@ -6,6 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.logger import Logger
 from kivy.lang import Builder
+from kivy.uix.screenmanager import ScreenManager, Screen
 
 import random
 
@@ -32,7 +33,7 @@ settings_json = '''
 '''
 
 
-class MyRoot(BoxLayout):
+class MyRoot(Screen):
 
     def __init__(self, **kwargs):
         super(MyRoot, self).__init__(**kwargs)
@@ -47,9 +48,33 @@ class MyRoot(BoxLayout):
         self.quote_text.text = f'"{quote_text}"'
         self.quote_author.text = f'~ {quote_author} ~'
 
-
     def generate_number(self):
         self.random_label.text = str(random.randint(int(self.min_val.text), int(self.max_val.text)))
+
+    def add_quote(self):
+        self.manager.current = 'add_quote'
+
+
+class AddQuote(Screen):
+
+    def __init__(self, **kwargs):
+        super(AddQuote, self).__init__(**kwargs)
+
+    def save_quote(self):
+        new_quote = {
+            "text": self.new_quote_text.text,
+            "author": self.new_quote_author.text
+        }
+
+        with open('motiprompt/quotes/default.json', 'r') as file:
+            quotes = json.load(file)
+
+        quotes.append(new_quote)
+
+        with open('motiprompt/quotes/default.json', 'w') as file:
+            json.dump(quotes, file, indent=2)
+
+        self.manager.current = 'main'
 
 
 class MotiPrompt(App):
@@ -58,10 +83,18 @@ class MotiPrompt(App):
         self.settings_cls = SettingsWithTabbedPanel
 
         # We apply the saved configuration settings or the defaults
-        root = MyRoot()
+        root = MyRoot(name='main')
         root.ids.min_val.text = self.config.get('My Settings', 'min_val')
         root.ids.max_val.text = self.config.get('My Settings', 'max_val')
-        return root
+
+        # Create the screen manager and add the main and add_quote screens
+        sm = ScreenManager()
+        sm.add_widget(root)
+        sm.add_widget(AddQuote(name='add_quote'))
+
+        # Set the root widget to the screen manager
+        # root.manager = sm
+        return sm
 
     def build_config(self, config):
         """

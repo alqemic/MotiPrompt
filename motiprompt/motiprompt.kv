@@ -61,3 +61,33 @@
             font_size: 32
             size: 100, 50
             on_release: app.open_settings()
+        Button:
+            text: "Add quote"
+            font_size: 32
+            size: 100, 50
+            on_press: root.add_quote()
+
+<AddQuote>:
+
+    new_quote_text: new_quote_text
+    new_quote_author: new_quote_author
+
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Add Quote"
+            font_size: 64
+            color: 0.92, 0.45, 0, 1
+        TextInput:
+            id: new_quote_text
+            text: "New quote text"
+            multiline: False
+        TextInput:
+            id: new_quote_author
+            text: "New quote author"
+            multiline: False
+        Button:
+            text: "Save"
+            font_size: 32
+            size: 100, 50
+            on_press: root.save_quote()
