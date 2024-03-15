@@ -1,14 +1,17 @@
 
 import kivy
 from kivy.app import App
+from kivy.core.window import Window
 from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.logger import Logger
 from kivy.uix.screenmanager import ScreenManager
 
-from motiprompt.screens import AddQuote, MyRoot
+from motiprompt.screens import AddQuote, MyRoot, ShowQuotes
 
 kivy.require('2.3.0')
 
+Window.clearcolor = (0.5, 0.5, 0.5, 1)
+Window.size = (600, 700)
 
 settings_json = '''
 [
@@ -41,11 +44,13 @@ class MotiPrompt(App):
         root.ids.max_val.text = self.config.get('My Settings', 'max_val')
 
         add_quote = AddQuote(name='add_quote')
+        show_quotes = ShowQuotes(name='show_quotes')
 
         # Create the screen manager and add the main and add_quote screens
         sm = ScreenManager()
         sm.add_widget(root)
         sm.add_widget(add_quote)
+        sm.add_widget(show_quotes)
 
         return sm
 
@@ -69,10 +74,11 @@ class MotiPrompt(App):
             config, section, key, value))
 
         if section == "My Settings":
-            if key == "min_val":
-                self.root.ids.min_val.text = value
-            elif key == "max_val":
-                self.root.ids.max_val.text = value
+            match key:
+                case "min_val":
+                    self.root.ids.min_val.text = value
+                case "max_val":
+                    self.root.ids.max_val.text = value
 
     def close_settings(self, settings=None):
         """
