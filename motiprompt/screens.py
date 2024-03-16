@@ -52,6 +52,9 @@ class AddQuote(Screen):
         with open('motiprompt/quotes/default.json', 'w') as file:
             json.dump(quotes, file, indent=2)
 
+        self.go_to_main()
+
+    def go_to_main(self):
         self.manager.current = 'main'
 
 
@@ -60,29 +63,26 @@ class ShowQuotes(Screen):
     def __init__(self, **kwargs):
         super(ShowQuotes, self).__init__(**kwargs)
 
-        # Create a ScrollView to hold the quotes
         self.scroll_view = ScrollView()
         self.scroll_view.do_scroll_y = True
         self.scroll_view.do_scroll_x = True
 
-        # Create a BoxLayout to hold the quotes
         self.layout = BoxLayout(orientation='vertical')
+        self.refresh_quotes()
+        self.scroll_view.add_widget(self.layout)
+        self.add_widget(self.scroll_view)
 
+    def on_enter(self, *args):
+        self.refresh_quotes()
 
-        # Add a label for each quote
+    def refresh_quotes(self):
+        self.layout.clear_widgets()
+
         with open('motiprompt/quotes/default.json', 'r') as file:
             quotes = json.load(file)
         for quote in quotes:
             self.layout.add_widget(Label(text=f"{quote.get('text', 'Unknown Text')} - {quote.get('author', 'Unknown Author')}"))
-
-        # Add a button to go back to the main screen
-        self.layout.add_widget(Button(text='Back', on_press=self.go_to_main))
-
-        # Add the BoxLayout to the ScrollView
-        self.scroll_view.add_widget(self.layout)
-
-        # Add the BoxLayout to the screen
-        self.add_widget(self.scroll_view)
+        self.layout.add_widget(Button(text='Go Back', on_press=self.go_to_main))
 
     def go_to_main(self, instance):
         self.manager.current = 'main'

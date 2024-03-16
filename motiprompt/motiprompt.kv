@@ -91,8 +91,15 @@
             id: new_quote_author
             text: "New quote author"
             multiline: False
-        Button:
-            text: "Save"
-            font_size: 32
-            size: 100, 50
-            on_press: root.save_quote()
+        GridLayout:
+            cols: 2
+            Button:
+                text: "Go Back"
+                font_size: 32
+                size: 100, 50
+                on_press: root.go_to_main()
+            Button:
+                text: "Save"
+                font_size: 32
+                size: 100, 50
+                on_press: root.save_quote()

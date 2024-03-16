@@ -38,7 +38,6 @@ class MotiPrompt(App):
     def build(self):
         self.settings_cls = SettingsWithTabbedPanel
 
-        # We apply the saved configuration settings or the defaults
         root = MyRoot(name='main')
         root.ids.min_val.text = self.config.get('My Settings', 'min_val')
         root.ids.max_val.text = self.config.get('My Settings', 'max_val')
@@ -46,7 +45,6 @@ class MotiPrompt(App):
         add_quote = AddQuote(name='add_quote')
         show_quotes = ShowQuotes(name='show_quotes')
 
-        # Create the screen manager and add the main and add_quote screens
         sm = ScreenManager()
         sm.add_widget(root)
         sm.add_widget(add_quote)
