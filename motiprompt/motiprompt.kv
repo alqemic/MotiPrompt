@@ -48,25 +48,44 @@
             font_size: 24
         Button:
             text: "Generate quote"
-            font_size: 32
+            font_size: 28
+            bold: True
+            italic: True
+            height: 10
+            background_color: (0.5, 0.7, 0.5, 0.9)
             size: 100, 50
+            border: 30,30,30,30
+            color: (1, .3, .8, .5)
             on_press: root.get_quote()
-        Button:
+        MDFillRoundFlatButton:
             text: "Generate number"
-            font_size: 32
+            font_size: 20
             size: 100, 50
+            size_hint: 0.8, 0.3
+            color: 0, 0, 0, 1
             on_press: root.generate_number()
-        Button:
+        MDFlatButton:
             text: "Configure"
-            font_size: 32
+            font_size: 24
             size: 100, 50
+            style: "elevated"
+            pos_hint: {"center_x": .5, "center_y": .5}
             on_release: app.open_settings()
         Button:
             text: "Add quote"
-            font_size: 32
+            font_size: 20
             size: 100, 50
+            background_color: 0, 0, 0, 0
+            background_normal: ""
+            canvas.before:
+                Color:
+                    rgba: 0, 1, 0, 0.5
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [55]
             on_press: root.add_quote()
-        Button:
+        MDRoundFlatIconButton:
             text: "Show quotes"
             font_size: 32
             size: 100, 50

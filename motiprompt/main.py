@@ -5,6 +5,7 @@ from kivy.core.window import Window
 from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.logger import Logger
 from kivy.uix.screenmanager import ScreenManager
+from kivymd.app import MDApp
 
 from motiprompt.screens import AddQuote, MyRoot, ShowQuotes
 
@@ -31,12 +32,15 @@ settings_json = '''
     }
 ]
 '''
+# from kivy.lang import Builder
+# Builder.load_file('motiprompt.kv')
 
-
-class MotiPrompt(App):
+class MotiPrompt(MDApp):
 
     def build(self):
         self.settings_cls = SettingsWithTabbedPanel
+        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "BlueGray"
 
         root = MyRoot(name='main')
         root.ids.min_val.text = self.config.get('My Settings', 'min_val')
