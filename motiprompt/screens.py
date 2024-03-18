@@ -1,9 +1,11 @@
 import json
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.widget import Widget
+from kivymd.uix.button import MDRoundFlatIconButton
 
 import random
 
@@ -62,6 +64,7 @@ class ShowQuotes(Screen):
 
     def __init__(self, **kwargs):
         super(ShowQuotes, self).__init__(**kwargs)
+        self.bind(size=self._update_text_size)
 
         self.scroll_view = ScrollView()
         self.scroll_view.do_scroll_y = True
@@ -72,6 +75,11 @@ class ShowQuotes(Screen):
         self.scroll_view.add_widget(self.layout)
         self.add_widget(self.scroll_view)
 
+    def _update_text_size(self, instance, value):
+        for child in self.layout.children:
+            if isinstance(child, Label):
+                child.text_size = (self.width, None)
+
     def on_enter(self, *args):
         self.refresh_quotes()
 
@@ -81,8 +89,19 @@ class ShowQuotes(Screen):
         with open('motiprompt/quotes/default.json', 'r') as file:
             quotes = json.load(file)
         for quote in quotes:
-            self.layout.add_widget(Label(text=f"{quote.get('text', 'Unknown Text')} - {quote.get('author', 'Unknown Author')}"))
-        self.layout.add_widget(Button(text='Go Back', on_press=self.go_to_main))
+            label = Label(text=f"{quote.get('text', 'Unknown Text')}\n ~ {quote.get('author', 'Unknown Author')} ~")
+            label.text_size = (self.width, None)
+            label.halign = 'center'
+            label.valign = 'middle'
+            label.height = label.texture_size[1] + 10
+            self.layout.add_widget(label)
+
+        grid= GridLayout(rows=1, cols=3)
+        grid.add_widget(Widget(size_hint_x=0.3))
+        grid.add_widget(MDRoundFlatIconButton(text='Go Back', on_press=self.go_to_main, icon='arrow-left'))
+        grid.add_widget(Widget(size_hint_x=0.3))
+
+        self.layout.add_widget(grid)
 
     def go_to_main(self, instance):
         self.manager.current = 'main'

@@ -1,6 +1,5 @@
 
 import kivy
-from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.logger import Logger
@@ -32,8 +31,6 @@ settings_json = '''
     }
 ]
 '''
-# from kivy.lang import Builder
-# Builder.load_file('motiprompt.kv')
 
 class MotiPrompt(MDApp):
 
