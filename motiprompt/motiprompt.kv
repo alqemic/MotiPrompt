@@ -18,11 +18,16 @@
         GridLayout:
             cols: 1
             id: random_quote
+            size_hint_y: None
             Label:
                 id: quote_text
                 text: "-"
+                text_size: self.width, None
+                height: self.texture_size[1] + 10
                 font_size: 32
                 color: 0.92, 0.45, 0, 1
+                halign: 'center'
+                valign: 'middle'
             Label:
                 canvas.before:
                     Color:
@@ -46,7 +51,7 @@
             id: random_label
             text: "-"
             font_size: 24
-        Button:
+        MDRoundFlatIconButton:
             text: "Generate quote"
             font_size: 28
             bold: True
@@ -71,7 +76,7 @@
             style: "elevated"
             pos_hint: {"center_x": .5, "center_y": .5}
             on_release: app.open_settings()
-        Button:
+        MDRoundFlatIconButton:
             text: "Add quote"
             font_size: 20
             size: 100, 50
