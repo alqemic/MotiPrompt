@@ -1,4 +1,3 @@
-
 import kivy
 from kivy.core.window import Window
 from kivy.uix.settings import SettingsWithTabbedPanel
@@ -8,12 +7,12 @@ from kivymd.app import MDApp
 
 from motiprompt.screens import AddQuote, MyRoot, ShowQuotes
 
-kivy.require('2.3.0')
+kivy.require("2.3.0")
 
 Window.clearcolor = (0.5, 0.5, 0.5, 1)
 Window.size = (600, 700)
 
-settings_json = '''
+settings_json = """
 [
     {
         "type": "numeric",
@@ -30,21 +29,21 @@ settings_json = '''
         "key": "max_val"
     }
 ]
-'''
+"""
+
 
 class MotiPrompt(MDApp):
-
     def build(self):
         self.settings_cls = SettingsWithTabbedPanel
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "BlueGray"
 
-        root = MyRoot(name='main')
-        root.ids.min_val.text = self.config.get('My Settings', 'min_val')
-        root.ids.max_val.text = self.config.get('My Settings', 'max_val')
+        root = MyRoot(name="main")
+        root.ids.min_val.text = self.config.get("My Settings", "min_val")
+        root.ids.max_val.text = self.config.get("My Settings", "max_val")
 
-        add_quote = AddQuote(name='add_quote')
-        show_quotes = ShowQuotes(name='show_quotes')
+        add_quote = AddQuote(name="add_quote")
+        show_quotes = ShowQuotes(name="show_quotes")
 
         sm = ScreenManager()
         sm.add_widget(root)
@@ -57,20 +56,23 @@ class MotiPrompt(MDApp):
         """
         Set the default values for the configs sections.
         """
-        config.setdefaults('My Settings', {'min_val': 0, 'max_val': 10})
+        config.setdefaults("My Settings", {"min_val": 0, "max_val": 10})
 
     def build_settings(self, settings):
         """
         Add our custom section to the default configuration object.
         """
-        settings.add_json_panel('My Settings', self.config, data=settings_json)
+        settings.add_json_panel("My Settings", self.config, data=settings_json)
 
     def on_config_change(self, config, section, key, value):
         """
         Respond to changes in the configuration.
         """
-        Logger.info("main.py: App.on_config_change: {0}, {1}, {2}, {3}".format(
-            config, section, key, value))
+        Logger.info(
+            "main.py: App.on_config_change: {0}, {1}, {2}, {3}".format(
+                config, section, key, value
+            )
+        )
 
         if section == "My Settings":
             match key:
@@ -87,5 +89,5 @@ class MotiPrompt(MDApp):
         super(MotiPrompt, self).close_settings(settings)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     MotiPrompt().run()
