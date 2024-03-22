@@ -13,12 +13,11 @@
         orientation: "vertical"
         Label:
             text: "MotiPrompt"
-            font_size: 64
+            font_size: 60
             color: 0.92, 0.45, 0, 1
         GridLayout:
             cols: 1
             id: random_quote
-            size_hint_y: None
             Label:
                 id: quote_text
                 text: "-"
@@ -51,17 +50,30 @@
             id: random_label
             text: "-"
             font_size: 24
-        MDRoundFlatIconButton:
-            text: "Generate quote"
-            font_size: 28
-            bold: True
-            italic: True
-            height: 10
-            background_color: (0.5, 0.7, 0.5, 0.9)
-            size: 100, 50
-            border: 30,30,30,30
-            color: (1, .3, .8, .5)
-            on_press: root.get_quote()
+        GridLayout:
+            cols: 3
+            MDRoundFlatIconButton:
+                text: "Generate quote"
+                size_hint: 0.3, None
+                font_size: 20
+                bold: True
+                italic: True
+                height: 10
+                background_color: (0.5, 0.7, 0.5, 0.9)
+                border: 30,30,30,30
+                color: (1, .3, .8, .5)
+                on_press: root.get_quote()
+            MDRoundFlatIconButton:
+                text: "Add quote"
+                size_hint: 0.3, None
+                font_size: 20
+                icon: 'plus'
+                on_press: root.add_quote()
+            MDRoundFlatIconButton:
+                text: "Show quotes"
+                size_hint: 0.3, None
+                font_size: 20
+                on_press: root.show_quotes()
         MDFillRoundFlatButton:
             text: "Generate number"
             font_size: 20
@@ -71,30 +83,11 @@
             on_press: root.generate_number()
         MDFlatButton:
             text: "Configure"
-            font_size: 24
+            font_size: 20
             size: 100, 50
             style: "elevated"
             pos_hint: {"center_x": .5, "center_y": .5}
             on_release: app.open_settings()
-        MDRoundFlatIconButton:
-            text: "Add quote"
-            font_size: 20
-            size: 100, 50
-            background_color: 0, 0, 0, 0
-            background_normal: ""
-            canvas.before:
-                Color:
-                    rgba: 0, 1, 0, 0.5
-                RoundedRectangle:
-                    size: self.size
-                    pos: self.pos
-                    radius: [55]
-            on_press: root.add_quote()
-        MDRoundFlatIconButton:
-            text: "Show quotes"
-            font_size: 32
-            size: 100, 50
-            on_press: root.show_quotes()
 
 <AddQuote>:
 
@@ -105,25 +98,28 @@
         orientation: "vertical"
         Label:
             text: "Add Quote"
-            font_size: 64
+            font_size: 60
             color: 0.92, 0.45, 0, 1
-        TextInput:
+        MDTextField:
             id: new_quote_text
             text: "New quote text"
+            helper_text: "New quote text"
             multiline: False
-        TextInput:
+        MDTextField:
             id: new_quote_author
             text: "New quote author"
+            helper_text: "New quote author"
             multiline: False
         GridLayout:
             cols: 2
-            Button:
+            MDRoundFlatIconButton:
                 text: "Go Back"
-                font_size: 32
-                size: 100, 50
+                icon: "arrow-left"
+                font_size: 20
+                size_hint: 0.5, None
                 on_press: root.go_to_main()
-            Button:
+            MDRoundFlatIconButton:
                 text: "Save"
-                font_size: 32
-                size: 100, 50
+                font_size: 20
+                size_hint: 0.5, None
                 on_press: root.save_quote()
