@@ -1,4 +1,5 @@
 import json
+import os
 from kivy.logger import Logger
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -41,6 +42,22 @@ class MyRoot(Screen):
 class AddQuote(Screen):
     def __init__(self, **kwargs):
         super(AddQuote, self).__init__(**kwargs)
+        menu_items = []
+        for i in os.listdir("motiprompt/quotes"):
+            menu_items.append(
+                {
+                    "viewclass": "OneLineListItem",
+                    "text": f"{i.split('.')[0]}",
+                    "on_release": lambda *args: self.set_set(i),
+                }
+            )
+        self.dropdown1 = MDDropdownMenu(
+            items=menu_items, width_mult=4, caller=self.ids.button
+        )
+
+    def set_set(self, set):
+        self.current_set = set
+        Logger.info(f"current set: {self.current_set}")
 
     def save_quote(self):
         new_quote = {
@@ -48,12 +65,12 @@ class AddQuote(Screen):
             "author": self.new_quote_author.text,
         }
 
-        with open("motiprompt/quotes/default.json", "r") as file:
+        with open(f"motiprompt/quotes/{self.current_set}", "r") as file:
             quotes = json.load(file)
 
         quotes.append(new_quote)
 
-        with open("motiprompt/quotes/default.json", "w") as file:
+        with open(f"motiprompt/quotes/{self.current_set}", "w") as file:
             json.dump(quotes, file, indent=2)
 
         self.go_to_main()

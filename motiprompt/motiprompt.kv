@@ -100,6 +100,12 @@
             text: "Add Quote"
             font_size: 60
             color: 0.92, 0.45, 0, 1
+        MDRoundFlatIconButton:
+            id: button
+            text: "Quote Set"
+            icon: "menu"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            on_release: root.dropdown1.open()
         MDTextField:
             id: new_quote_text
             text: "New quote text"
