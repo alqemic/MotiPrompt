@@ -9,6 +9,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.widget import Widget
 from kivymd.uix.button import MDRoundFlatIconButton
 from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.textfield import MDTextField
 
 import random
 
@@ -42,6 +43,7 @@ class MyRoot(Screen):
 class AddQuote(Screen):
     def __init__(self, **kwargs):
         super(AddQuote, self).__init__(**kwargs)
+        self.current_set = 'default'
         menu_items = []
         for i in os.listdir("motiprompt/quotes"):
             menu_items.append(
@@ -51,6 +53,13 @@ class AddQuote(Screen):
                     "on_release": lambda *args: self.set_set(i),
                 }
             )
+        menu_items.append(
+            {
+                "viewclass": "OneLineListItem",
+                "text": "Create new set",
+                "on_release": lambda *args: self.new_set()
+            }
+        )
         self.dropdown1 = MDDropdownMenu(
             items=menu_items, width_mult=4, caller=self.ids.button
         )
@@ -58,6 +67,26 @@ class AddQuote(Screen):
     def set_set(self, set):
         self.current_set = set
         Logger.info(f"current set: {self.current_set}")
+
+    def new_set(self):
+        self.new_set_name = MDTextField(
+            id='new_quote_set',
+            text="New set name",
+            helper_text="New set name, e.g. 'my_set'",
+            multiline=False
+        )
+        create_button = MDRoundFlatIconButton(
+                text="Create",
+                on_press=self.create_set
+        )
+        self.new_set_grid = GridLayout(rows=1, cols=2)
+        self.new_set_grid.add_widget(self.new_set_name)
+        self.new_set_grid.add_widget(create_button)
+        self.add_widget(self.new_set_grid)
+
+    def create_set(self, instance):
+        self.current_set = str(self.new_set_name.text)
+        Logger.info(f"changed? {self.current_set}")
 
     def save_quote(self):
         new_quote = {
