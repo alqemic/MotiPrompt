@@ -45,12 +45,12 @@ class AddQuote(Screen):
         super(AddQuote, self).__init__(**kwargs)
         self.current_set = 'default'
         menu_items = []
-        for i in os.listdir("motiprompt/quotes"):
+        for item in [each.split('.')[0] for each in os.listdir("motiprompt/quotes")]:
             menu_items.append(
                 {
                     "viewclass": "OneLineListItem",
-                    "text": f"{i.split('.')[0]}",
-                    "on_release": lambda *args: self.set_set(i),
+                    "text": f"{item}",
+                    "on_release": lambda *args: self.set_set(item),
                 }
             )
         menu_items.append(
@@ -86,7 +86,8 @@ class AddQuote(Screen):
 
     def create_set(self, instance):
         self.current_set = str(self.new_set_name.text)
-        Logger.info(f"changed? {self.current_set}")
+        with open(f"motiprompt/quotes/{self.current_set}.json", "a") as file:
+            json.dump([], file, indent=2)
 
     def save_quote(self):
         new_quote = {
@@ -94,15 +95,13 @@ class AddQuote(Screen):
             "author": self.new_quote_author.text,
         }
 
-        with open(f"motiprompt/quotes/{self.current_set}", "r") as file:
+        with open(f"motiprompt/quotes/{self.current_set}.json", "r") as file:
             quotes = json.load(file)
 
         quotes.append(new_quote)
 
-        with open(f"motiprompt/quotes/{self.current_set}", "w") as file:
+        with open(f"motiprompt/quotes/{self.current_set}.json", "w") as file:
             json.dump(quotes, file, indent=2)
-
-        self.go_to_main()
 
     def go_to_main(self):
         self.manager.current = "main"
