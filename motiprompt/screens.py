@@ -65,8 +65,10 @@ class AddQuote(Screen):
         )
 
     def set_set(self, set):
+        # Last item from the list passed instead of the selected
+        Logger.info(f"current set before: {set} {self.current_set}")
         self.current_set = set
-        Logger.info(f"current set: {self.current_set}")
+        Logger.info(f"current set after: {set} {self.current_set}")
 
     def new_set(self):
         self.new_set_name = MDTextField(
