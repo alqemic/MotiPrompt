@@ -52,42 +52,46 @@
             font_size: 24
         GridLayout:
             cols: 3
-            MDRoundFlatIconButton:
-                text: "Generate quote"
+            MDButton:
                 size_hint: 0.3, None
                 font_size: 20
-                bold: True
-                italic: True
-                height: 10
-                background_color: (0.5, 0.7, 0.5, 0.9)
-                border: 30,30,30,30
-                color: (1, .3, .8, .5)
                 on_press: root.get_quote()
-            MDRoundFlatIconButton:
-                text: "Add quote"
+                MDButtonIcon:
+                    icon: "refresh"
+                MDButtonText:
+                    text: "Generate quote"
+            MDButton:
                 size_hint: 0.3, None
                 font_size: 20
-                icon: 'plus'
                 on_press: root.add_quote()
-            MDRoundFlatIconButton:
-                text: "Show quotes"
+                MDButtonIcon:
+                    icon: 'plus'
+                MDButtonText:
+                    text: "Add quote"
+            MDButton:
                 size_hint: 0.3, None
                 font_size: 20
                 on_press: root.show_quotes()
-        MDFillRoundFlatButton:
-            text: "Generate number"
+                MDButtonIcon:
+                    icon: "eye"
+                MDButtonText:
+                    text: "Show quotes"
+        MDButton:
             font_size: 20
             size: 100, 50
             size_hint: 0.8, 0.3
             color: 0, 0, 0, 1
             on_press: root.generate_number()
-        MDFlatButton:
-            text: "Configure"
+            MDButtonText:
+                text: "Generate number"
+        MDButton:
             font_size: 20
             size: 100, 50
             style: "elevated"
             pos_hint: {"center_x": .5, "center_y": .5}
             on_release: app.open_settings()
+            MDButtonText:
+                text: "Configure"
 
 <AddQuote>:
 
@@ -100,12 +104,14 @@
             text: "Add Quote"
             font_size: 60
             color: 0.92, 0.45, 0, 1
-        MDRoundFlatIconButton:
+        MDButton:
             id: button
-            text: "Quote Set"
-            icon: "menu"
             pos_hint: {"center_x": .5, "center_y": .5}
             on_release: root.dropdown1.open()
+            MDButtonIcon:
+                icon: "menu"
+            MDButtonText:
+                text: "Quote Set"
         MDTextField:
             id: new_quote_text
             text: "New quote text"
@@ -118,14 +124,17 @@
             multiline: False
         GridLayout:
             cols: 2
-            MDRoundFlatIconButton:
-                text: "Go Back"
-                icon: "arrow-left"
+            MDButton:
                 font_size: 20
                 size_hint: 0.5, None
                 on_press: root.go_to_main()
-            MDRoundFlatIconButton:
-                text: "Save"
+                MDButtonIcon:
+                    icon: "arrow-left"
+                MDButtonText:
+                    text: "Go Back"
+            MDButton:
                 font_size: 20
                 size_hint: 0.5, None
                 on_press: root.save_quote()
+                MDButtonText:
+                    text: "Save"

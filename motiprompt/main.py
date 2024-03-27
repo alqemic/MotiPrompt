@@ -36,7 +36,7 @@ class MotiPrompt(MDApp):
     def build(self):
         self.settings_cls = SettingsWithTabbedPanel
         self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "BlueGray"
+        self.theme_cls.primary_palette = "Olive"
 
         root = MyRoot(name="main")
         root.ids.min_val.text = self.config.get("My Settings", "min_val")

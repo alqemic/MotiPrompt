@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 kivy = "^2.3.0"
-kivymd = "^1.2.0"
+kivymd = {git = "https://github.com/kivymd/KivyMD.git"}
 
 
 [build-system]

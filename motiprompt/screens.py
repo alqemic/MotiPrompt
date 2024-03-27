@@ -7,7 +7,7 @@ from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.widget import Widget
-from kivymd.uix.button import MDRoundFlatIconButton
+from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.textfield import MDTextField
 
@@ -48,14 +48,14 @@ class AddQuote(Screen):
         for item in [each.split('.')[0] for each in os.listdir("motiprompt/quotes")]:
             menu_items.append(
                 {
-                    "viewclass": "OneLineListItem",
+                    # "viewclass": "OneLineListItem",
                     "text": f"{item}",
                     "on_release": lambda *args: self.set_set(item),
                 }
             )
         menu_items.append(
             {
-                "viewclass": "OneLineListItem",
+                # "viewclass": "OneLineListItem",
                 "text": "Create new set",
                 "on_release": lambda *args: self.new_set()
             }
@@ -77,10 +77,9 @@ class AddQuote(Screen):
             helper_text="New set name, e.g. 'my_set'",
             multiline=False
         )
-        create_button = MDRoundFlatIconButton(
-                text="Create",
-                on_press=self.create_set
-        )
+        create_button = MDButton(on_press=self.create_set)
+        create_button.add_widget(MDButtonText(text="Create"))
+
         self.new_set_grid = GridLayout(rows=1, cols=2)
         self.new_set_grid.add_widget(self.new_set_name)
         self.new_set_grid.add_widget(create_button)
@@ -114,8 +113,8 @@ class ShowQuotes(Screen):
         super(ShowQuotes, self).__init__(**kwargs)
         self.bind(size=self._update_text_size)
 
-        self.quote_sets = ["default.json", "set1.json", "set2.json"]
-        self.current_set = "default.json"
+        self.quote_sets = ["default", "set1", "set2"]
+        self.current_set = "default"
 
         self.scroll_view = ScrollView()
         self.scroll_view.do_scroll_y = True
@@ -143,17 +142,17 @@ class ShowQuotes(Screen):
             width_mult=4,
         )
         Logger.info("ShowQuotes: Creating dropdown button")
-        self.dropdown_button = MDRoundFlatIconButton(
-            text=self.current_set,
-            icon="menu",
+        self.dropdown_button = MDButton(
             pos_hint={"center_x": 0.5, "center_y": 0.9},
             on_release=self.dropdown_menu.open,
         )
+        self.dropdown_button.add_widget(MDButtonIcon(icon="menu"))
+        self.dropdown_button.add_widget(MDButtonText(text=self.current_set))
         self.build_dropdown_menu()
 
         self.layout.add_widget(self.dropdown_button)
 
-        with open("motiprompt/quotes/default.json", "r") as file:
+        with open(f"motiprompt/quotes/{self.current_set}.json", "r") as file:
             quotes = json.load(file)
         for quote in quotes:
             label = Label(
@@ -167,11 +166,10 @@ class ShowQuotes(Screen):
 
         grid = GridLayout(rows=1, cols=3)
         grid.add_widget(Widget(size_hint_x=0.3))
-        grid.add_widget(
-            MDRoundFlatIconButton(
-                text="Go Back", on_press=self.go_to_main, icon="arrow-left"
-            )
-        )
+        b = MDButton(on_press=self.go_to_main)
+        b.add_widget(MDButtonIcon(icon="arrow-left"))
+        b.add_widget(MDButtonText(text="Go Back"))
+        grid.add_widget(b)
         grid.add_widget(Widget(size_hint_x=0.3))
 
         self.layout.add_widget(grid)
@@ -183,7 +181,7 @@ class ShowQuotes(Screen):
         for quote_set in self.quote_sets:
             self.dropdown_menu.items.append(
                 {
-                    "viewclass": "OneLineListItem",
+                    # "viewclass": "OneLineListItem",
                     "text": quote_set,
                     "on_release": lambda x=quote_set: self.select_quote_set(x),
                 }
