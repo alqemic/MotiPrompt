@@ -43,9 +43,9 @@ class MyRoot(Screen):
 class AddQuote(Screen):
     def __init__(self, **kwargs):
         super(AddQuote, self).__init__(**kwargs)
-        self.current_set = 'default'
+        self.current_set = "default"
         menu_items = []
-        for item in [each.split('.')[0] for each in os.listdir("motiprompt/quotes")]:
+        for item in [each.split(".")[0] for each in os.listdir("motiprompt/quotes")]:
             menu_items.append(
                 {
                     # "viewclass": "OneLineListItem",
@@ -57,7 +57,7 @@ class AddQuote(Screen):
             {
                 # "viewclass": "OneLineListItem",
                 "text": "Create new set",
-                "on_release": lambda *args: self.new_set()
+                "on_release": lambda *args: self.new_set(),
             }
         )
         self.dropdown1 = MDDropdownMenu(
@@ -72,10 +72,10 @@ class AddQuote(Screen):
 
     def new_set(self):
         self.new_set_name = MDTextField(
-            id='new_quote_set',
+            id="new_quote_set",
             text="New set name",
             helper_text="New set name, e.g. 'my_set'",
-            multiline=False
+            multiline=False,
         )
         create_button = MDButton(on_press=self.create_set)
         create_button.add_widget(MDButtonText(text="Create"))
