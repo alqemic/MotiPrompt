@@ -17,6 +17,10 @@ import random
 class MyRoot(Screen):
     def __init__(self, **kwargs):
         super(MyRoot, self).__init__(**kwargs)
+        self.quote_text = Label()
+        self.quote_author = Label()
+        self.random_quote = GridLayout()
+        self.random_label = Label()
 
     def get_quote(self):
         with open("motiprompt/quotes/default.json", "r") as file:
