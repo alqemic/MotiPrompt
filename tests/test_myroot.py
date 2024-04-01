@@ -1,7 +1,7 @@
 import unittest
 import json
 from unittest.mock import patch, MagicMock
-
+from kivy.uix.screenmanager import Screen
 from motiprompt.screens import MyRoot
 
 
@@ -52,3 +52,23 @@ class TestMyRoot(unittest.TestCase):
 
         # Assert that the random_label is updated
         self.assertEqual(self.my_root.random_label.text, "5")
+
+    def test_add_quote(self):
+        # Mock the ScreenManager
+        self.my_root.manager = MagicMock(spec=Screen)
+
+        # Call the method
+        self.my_root.add_quote()
+
+        # Assert that the screen is switched to "add_quote"
+        self.assertEqual(self.my_root.manager.current, "add_quote")
+
+    def test_show_quotes(self):
+        # Mock the ScreenManager
+        self.my_root.manager = MagicMock(spec=Screen)
+
+        # Call the method
+        self.my_root.show_quotes()
+
+        # Assert that the screen is switched to "show_quotes"
+        self.assertEqual(self.my_root.manager.current, "show_quotes")
