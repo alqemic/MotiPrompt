@@ -1,5 +1,7 @@
 import json
 import os
+import random
+
 from kivy.logger import Logger
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -10,8 +12,6 @@ from kivy.uix.widget import Widget
 from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.textfield import MDTextField
-
-import random
 
 
 class MyRoot(Screen):
@@ -33,9 +33,7 @@ class MyRoot(Screen):
         self.quote_author.text = f"~ {quote_author} ~"
 
     def generate_number(self):
-        self.random_label.text = str(
-            random.randint(int(self.min_val.text), int(self.max_val.text))
-        )
+        self.random_label.text = str(random.randint(int(self.min_val.text), int(self.max_val.text)))
 
     def add_quote(self):
         self.manager.current = "add_quote"
@@ -64,9 +62,7 @@ class AddQuote(Screen):
                 "on_release": lambda *args: self.new_set(),
             }
         )
-        self.dropdown1 = MDDropdownMenu(
-            items=menu_items, width_mult=4, caller=self.ids.button
-        )
+        self.dropdown1 = MDDropdownMenu(items=menu_items, width_mult=4, caller=self.ids.button)
 
     def set_set(self, set):
         # Last item from the list passed instead of the selected
@@ -159,9 +155,7 @@ class ShowQuotes(Screen):
         with open(f"motiprompt/quotes/{self.current_set}.json", "r") as file:
             quotes = json.load(file)
         for quote in quotes:
-            label = Label(
-                text=f"{quote.get('text', 'Unknown Text')}\n ~ {quote.get('author', 'Unknown Author')} ~"
-            )
+            label = Label(text=f"{quote.get('text', 'Unknown Text')}\n ~ {quote.get('author', 'Unknown Author')} ~")
             label.text_size = (self.width, None)
             label.halign = "center"
             label.valign = "middle"

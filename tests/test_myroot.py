@@ -1,7 +1,9 @@
-import unittest
 import json
-from unittest.mock import patch, MagicMock
+import unittest
+from unittest.mock import MagicMock, patch
+
 from kivy.uix.screenmanager import Screen
+
 from motiprompt.screens import MyRoot
 
 
@@ -14,9 +16,7 @@ class TestMyRoot(unittest.TestCase):
     def test_get_quote(self, mock_open, mock_random_choice):
         # Mock the file content
         mock_file = MagicMock()
-        mock_file.read.return_value = json.dumps(
-            [{"text": "Test Quote", "author": "Test Author"}]
-        )
+        mock_file.read.return_value = json.dumps([{"text": "Test Quote", "author": "Test Author"}])
         mock_open.return_value.__enter__.return_value = mock_file
 
         # Mock random.choice to return a specific quote

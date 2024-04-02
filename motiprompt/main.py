@@ -1,8 +1,8 @@
 import kivy
 from kivy.core.window import Window
-from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.logger import Logger
 from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.settings import SettingsWithTabbedPanel
 from kivymd.app import MDApp
 
 from motiprompt.screens import AddQuote, MyRoot, ShowQuotes
@@ -68,11 +68,7 @@ class MotiPrompt(MDApp):
         """
         Respond to changes in the configuration.
         """
-        Logger.info(
-            "main.py: App.on_config_change: {0}, {1}, {2}, {3}".format(
-                config, section, key, value
-            )
-        )
+        Logger.info("main.py: App.on_config_change: {0}, {1}, {2}, {3}".format(config, section, key, value))
 
         if section == "My Settings":
             match key:

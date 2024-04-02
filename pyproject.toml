@@ -11,6 +11,36 @@ python = "^3.11"
 kivy = "^2.3.0"
 kivymd = {git = "https://github.com/kivymd/KivyMD.git"}
 
+[tool.black]
+line-length = 150
+
+[tool.ruff]
+select = [
+    "B",   # flake8-bugbear
+    "C",   # complexity
+    "E",   # pycodestyle
+    "F",   # pyflakes/autoflake
+    "I",   # isort
+    "PIE", # flake8-pie
+    "W",   # pycodestyle
+    "TID", # flake-tidy-imports
+]
+ignore = [
+    "B023", # Function definition does not bind loop variable.
+]
+line-length = 150
+target-version = "py311"
+unfixable = ["B", "C", "D", "E", "F", "PIE", "W", "TID"]
+fixable = ["I"]
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
 
 [build-system]
 requires = ["poetry-core"]
