@@ -32,9 +32,6 @@ class MyRoot(Screen):
         self.quote_text.text = f'"{quote_text}"'
         self.quote_author.text = f"~ {quote_author} ~"
 
-    def generate_number(self):
-        self.random_label.text = str(random.randint(int(self.min_val.text), int(self.max_val.text)))
-
     def add_quote(self):
         self.manager.current = "add_quote"
 
@@ -50,14 +47,12 @@ class AddQuote(Screen):
         for item in [each.split(".")[0] for each in os.listdir("motiprompt/quotes")]:
             menu_items.append(
                 {
-                    # "viewclass": "OneLineListItem",
                     "text": f"{item}",
                     "on_release": lambda *args: self.set_set(item),
                 }
             )
         menu_items.append(
             {
-                # "viewclass": "OneLineListItem",
                 "text": "Create new set",
                 "on_release": lambda *args: self.new_set(),
             }
@@ -179,7 +174,6 @@ class ShowQuotes(Screen):
         for quote_set in self.quote_sets:
             self.dropdown_menu.items.append(
                 {
-                    # "viewclass": "OneLineListItem",
                     "text": quote_set,
                     "on_release": lambda x=quote_set: self.select_quote_set(x),
                 }

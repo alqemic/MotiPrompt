@@ -2,12 +2,9 @@
 
 <MyRoot>:
 
-    random_label: random_label
     random_quote: random_quote
     quote_text: quote_text
     quote_author: quote_author
-    min_val: min_val
-    max_val: max_val
 
     BoxLayout:
         orientation: "vertical"
@@ -38,18 +35,6 @@
                 id: quote_author
                 text: "-"
                 font_size: 20
-        Label:
-            id: min_val
-            text: "-"
-            font_size: 10
-        Label:
-            id: max_val
-            text: "-"
-            font_size: 10
-        Label:
-            id: random_label
-            text: "-"
-            font_size: 24
         GridLayout:
             cols: 3
             MDButton:
@@ -76,22 +61,6 @@
                     icon: "eye"
                 MDButtonText:
                     text: "Show quotes"
-        MDButton:
-            font_size: 20
-            size: 100, 50
-            size_hint: 0.8, 0.3
-            color: 0, 0, 0, 1
-            on_press: root.generate_number()
-            MDButtonText:
-                text: "Generate number"
-        MDButton:
-            font_size: 20
-            size: 100, 50
-            style: "elevated"
-            pos_hint: {"center_x": .5, "center_y": .5}
-            on_release: app.open_settings()
-            MDButtonText:
-                text: "Configure"
 
 <AddQuote>:
 

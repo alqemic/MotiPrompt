@@ -36,23 +36,6 @@ class TestMyRoot(unittest.TestCase):
         self.assertEqual(self.my_root.quote_text.text, '"Test Quote"')
         self.assertEqual(self.my_root.quote_author.text, "~ Test Author ~")
 
-    def test_generate_number(self):
-        # Mock the min_val and max_val text fields
-        self.my_root.min_val = MagicMock()
-        self.my_root.min_val.text = "1"
-        self.my_root.max_val = MagicMock()
-        self.my_root.max_val.text = "10"
-
-        # Mock random.randint
-        with patch("motiprompt.screens.random.randint") as mock_randint:
-            mock_randint.return_value = 5
-
-            # Call the method
-            self.my_root.generate_number()
-
-        # Assert that the random_label is updated
-        self.assertEqual(self.my_root.random_label.text, "5")
-
     def test_add_quote(self):
         # Mock the ScreenManager
         self.my_root.manager = MagicMock(spec=Screen)
