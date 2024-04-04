@@ -7,7 +7,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
-from kivy.uix.scrollview import ScrollView
 from kivy.uix.widget import Widget
 from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
 from kivymd.uix.menu import MDDropdownMenu
@@ -20,7 +19,6 @@ class MyRoot(Screen):
         self.quote_text = Label()
         self.quote_author = Label()
         self.random_quote = GridLayout()
-        self.random_label = Label()
 
     def get_quote(self):
         with open("motiprompt/quotes/default.json", "r") as file:
@@ -111,15 +109,10 @@ class ShowQuotes(Screen):
         self.quote_sets = ["default", "set1", "set2"]
         self.current_set = "default"
 
-        self.scroll_view = ScrollView()
-        self.scroll_view.do_scroll_y = True
-        self.scroll_view.do_scroll_x = True
-
         self.layout = BoxLayout(orientation="vertical")
 
         self.refresh_quotes()
-        self.scroll_view.add_widget(self.layout)
-        self.add_widget(self.scroll_view)
+        self.add_widget(self.layout)
 
     def _update_text_size(self, instance, value):
         for child in self.layout.children:
