@@ -106,7 +106,7 @@ class ShowQuotes(Screen):
         super(ShowQuotes, self).__init__(**kwargs)
         self.bind(size=self._update_text_size)
 
-        self.quote_sets = ["default", "set1", "set2"]
+        self.quote_sets = [f.split(".")[0] for f in os.listdir("motiprompt/quotes") if f.endswith(".json")]
         self.current_set = "default"
 
         self.layout = BoxLayout(orientation="vertical")
@@ -124,16 +124,16 @@ class ShowQuotes(Screen):
 
     def refresh_quotes(self):
         self.layout.clear_widgets()
-        Logger.info("ShowQuotes: Creating dropdown menu")
-        self.dropdown_menu = MDDropdownMenu(
-            pos_hint={"center_x": 0.5, "center_y": 0.5},
-            width_mult=4,
-        )
-        Logger.info("ShowQuotes: Creating dropdown button")
+        items = [{"text": f} for f in self.quote_sets]
         self.dropdown_button = MDButton(
             pos_hint={"center_x": 0.5, "center_y": 0.9},
-            on_release=self.dropdown_menu.open,
         )
+        self.dropdown_menu = MDDropdownMenu(
+            caller=self.dropdown_button,
+            items=items,
+            width_mult=4,
+        )
+        self.dropdown_button.bind(on_release=lambda instance: self.dropdown_menu.open())
         self.dropdown_button.add_widget(MDButtonIcon(icon="menu"))
         self.dropdown_button.add_widget(MDButtonText(text=self.current_set))
         self.build_dropdown_menu()
@@ -143,11 +143,12 @@ class ShowQuotes(Screen):
         with open(f"motiprompt/quotes/{self.current_set}.json", "r") as file:
             quotes = json.load(file)
         for quote in quotes:
-            label = Label(text=f"{quote.get('text', 'Unknown Text')}\n ~ {quote.get('author', 'Unknown Author')} ~")
-            label.text_size = (self.width, None)
-            label.halign = "center"
-            label.valign = "middle"
-            label.height = label.texture_size[1] + 10
+            label = Label(
+                text=f"{quote.get('text', 'Unknown Text')}\n ~ {quote.get('author', 'Unknown Author')} ~",
+                text_size=(self.width, None),
+                halign="center",
+                valign="middle",
+            )
             self.layout.add_widget(label)
 
         grid = GridLayout(rows=1, cols=3)
@@ -164,6 +165,7 @@ class ShowQuotes(Screen):
         self.manager.current = "main"
 
     def build_dropdown_menu(self):
+        self.dropdown_menu.items.clear()
         for quote_set in self.quote_sets:
             self.dropdown_menu.items.append(
                 {
@@ -175,5 +177,5 @@ class ShowQuotes(Screen):
     def select_quote_set(self, quote_set):
         self.current_set = quote_set
         self.dropdown_button.text = f"Select Set: {quote_set}"
-        self.refresh_quotes()
         self.dropdown_menu.dismiss()
+        self.refresh_quotes()
