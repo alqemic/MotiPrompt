@@ -64,6 +64,7 @@
 
 <AddQuote>:
 
+    current_set: self.current_set
     new_quote_text: new_quote_text
     new_quote_author: new_quote_author
 
@@ -80,7 +81,7 @@
             MDButtonIcon:
                 icon: "menu"
             MDButtonText:
-                text: "Quote Set"
+                text: root.current_set
         MDTextField:
             id: new_quote_text
             text: "New quote text"

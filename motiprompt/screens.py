@@ -2,7 +2,7 @@ import json
 import os
 import random
 
-from kivy.logger import Logger
+from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -38,15 +38,17 @@ class MyRoot(Screen):
 
 
 class AddQuote(Screen):
+    current_set = StringProperty("default")
+
     def __init__(self, **kwargs):
         super(AddQuote, self).__init__(**kwargs)
-        self.current_set = "default"
+        self.quote_sets = [f.split(".")[0] for f in os.listdir("motiprompt/quotes") if f.endswith(".json")]
         menu_items = []
-        for item in [each.split(".")[0] for each in os.listdir("motiprompt/quotes")]:
+        for item in self.quote_sets:
             menu_items.append(
                 {
                     "text": f"{item}",
-                    "on_release": lambda *args: self.set_set(item),
+                    "on_release": lambda item=item: self.set_set(item),
                 }
             )
         menu_items.append(
@@ -59,9 +61,8 @@ class AddQuote(Screen):
 
     def set_set(self, set):
         # Last item from the list passed instead of the selected
-        Logger.info(f"current set before: {set} {self.current_set}")
         self.current_set = set
-        Logger.info(f"current set after: {set} {self.current_set}")
+        self.dropdown1.dismiss()
 
     def new_set(self):
         self.new_set_name = MDTextField(
