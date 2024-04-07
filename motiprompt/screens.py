@@ -9,6 +9,13 @@ from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
 from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
+from kivymd.uix.dialog import (
+    MDDialog,
+    MDDialogButtonContainer,
+    MDDialogContentContainer,
+    MDDialogHeadlineText,
+    MDDialogSupportingText,
+)
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.textfield import MDTextField
 
@@ -54,35 +61,36 @@ class AddQuote(Screen):
         menu_items.append(
             {
                 "text": "Create new set",
-                "on_release": lambda *args: self.new_set(),
+                "on_release": self.show_dialog,
             }
         )
         self.dropdown1 = MDDropdownMenu(items=menu_items, width_mult=4, caller=self.ids.button)
 
     def set_set(self, set):
-        # Last item from the list passed instead of the selected
         self.current_set = set
         self.dropdown1.dismiss()
 
-    def new_set(self):
-        self.new_set_name = MDTextField(
-            id="new_quote_set",
-            text="New set name",
-            helper_text="New set name, e.g. 'my_set'",
-            multiline=False,
+    def show_dialog(self):
+        self.new_set_name = MDTextField()
+        create_button = MDButton(MDButtonText(text="Create"), on_release=self.create_set, style="text")
+        cancel_button = MDButton(MDButtonText(text="Cancel"), on_release=self.dismiss_dialog, style="text")
+        self.dialog = MDDialog(
+            MDDialogHeadlineText(text="Create new set"),
+            MDDialogSupportingText(text="Enter the name of the new set, e.g. 'my_set'"),
+            MDDialogContentContainer(self.new_set_name),
+            MDDialogButtonContainer(Widget(), create_button, cancel_button, spacing="8dp"),
         )
-        create_button = MDButton(on_press=self.create_set)
-        create_button.add_widget(MDButtonText(text="Create"))
+        self.dialog.open()
 
-        self.new_set_grid = GridLayout(rows=1, cols=2)
-        self.new_set_grid.add_widget(self.new_set_name)
-        self.new_set_grid.add_widget(create_button)
-        self.add_widget(self.new_set_grid)
+    def dismiss_dialog(self, *args):
+        self.dropdown1.dismiss()
+        self.dialog.dismiss()
 
     def create_set(self, instance):
         self.current_set = str(self.new_set_name.text)
         with open(f"motiprompt/quotes/{self.current_set}.json", "a") as file:
             json.dump([], file, indent=2)
+        self.dismiss_dialog()
 
     def save_quote(self):
         new_quote = {
