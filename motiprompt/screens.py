@@ -115,7 +115,7 @@ class ShowQuotes(Screen):
         super(ShowQuotes, self).__init__(**kwargs)
         self.bind(size=self._update_text_size)
 
-        self.quote_sets = [f.split(".")[0] for f in os.listdir("motiprompt/quotes") if f.endswith(".json")]
+        self.get_list_of_sets()
         self.current_set = "default"
 
         self.layout = BoxLayout(orientation="vertical")
@@ -129,7 +129,11 @@ class ShowQuotes(Screen):
                 child.text_size = (self.width, None)
 
     def on_enter(self, *args):
+        self.get_list_of_sets()
         self.refresh_quotes()
+
+    def get_list_of_sets(self):
+        self.quote_sets = [f.split(".")[0] for f in os.listdir("motiprompt/quotes") if f.endswith(".json")]
 
     def refresh_quotes(self):
         self.layout.clear_widgets()
