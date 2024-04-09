@@ -87,10 +87,34 @@ class AddQuote(Screen):
         self.dialog.dismiss()
 
     def create_set(self, instance):
-        self.current_set = str(self.new_set_name.text)
+        new_set = str(self.new_set_name.text)
+        if not new_set:
+            self.show_error_dialog("Set name cannot be empty!")
+            return
+        if any(c.isspace() for c in new_set):
+            self.show_error_dialog("Set name cannot contain spaces!")
+            return
+        if os.path.exists(f"motiprompt/quotes/{new_set}.json"):
+            self.show_error_dialog("Set already exists! Choose different name.")
+            return
+        self.current_set = new_set
         with open(f"motiprompt/quotes/{self.current_set}.json", "a") as file:
             json.dump([], file, indent=2)
         self.dismiss_dialog()
+
+    def show_error_dialog(self, message):
+        ok_button = MDButton(MDButtonText(text="OK"), on_release=self.dismiss_error_dialog, style="text")
+        button_box = BoxLayout(orientation="vertical")
+        button_box.add_widget(ok_button)
+        self.error_dialog = MDDialog(
+            MDDialogHeadlineText(text="Error"),
+            MDDialogSupportingText(text=message),
+            MDDialogButtonContainer(Widget(), button_box, Widget()),
+        )
+        self.error_dialog.open()
+
+    def dismiss_error_dialog(self, *args):
+        self.error_dialog.dismiss()
 
     def save_quote(self):
         new_quote = {
