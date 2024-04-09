@@ -1,6 +1,6 @@
 import kivy
 from kivy.core.window import Window
-from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.screenmanager import FadeTransition, ScreenManager
 from kivymd.app import MDApp
 
 from motiprompt.screens import AddQuote, MyRoot, ShowQuotes
@@ -14,6 +14,8 @@ Window.size = (600, 700)
 class MotiScreenManager(ScreenManager):
     def __init__(self, **kwargs):
         super(MotiScreenManager, self).__init__(**kwargs)
+
+        self.transition = FadeTransition()
 
         root = MyRoot(name="main")
         add_quote = AddQuote(name="add_quote")
