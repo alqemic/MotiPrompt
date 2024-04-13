@@ -2,6 +2,7 @@ import json
 import os
 import random
 
+from kivy.clock import Clock
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -50,6 +51,9 @@ class AddQuote(Screen):
     def __init__(self, **kwargs):
         super(AddQuote, self).__init__(**kwargs)
         self.quote_sets = [f.split(".")[0] for f in os.listdir("motiprompt/quotes") if f.endswith(".json")]
+        Clock.schedule_once(self.create_dropdown)
+
+    def create_dropdown(self, *args):
         menu_items = []
         for item in self.quote_sets:
             menu_items.append(
@@ -64,7 +68,7 @@ class AddQuote(Screen):
                 "on_release": self.show_dialog,
             }
         )
-        self.dropdown1 = MDDropdownMenu(items=menu_items, width_mult=4, caller=self.ids.button)
+        self.dropdown1 = MDDropdownMenu(items=menu_items, caller=self.ids.button)
 
     def set_set(self, set):
         self.current_set = set
@@ -168,7 +172,6 @@ class ShowQuotes(Screen):
         self.dropdown_menu = MDDropdownMenu(
             caller=self.dropdown_button,
             items=items,
-            width_mult=4,
         )
         self.dropdown_button.bind(on_release=lambda instance: self.dropdown_menu.open())
         self.dropdown_button.add_widget(MDButtonIcon(icon="menu"))
