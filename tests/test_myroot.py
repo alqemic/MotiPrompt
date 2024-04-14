@@ -2,6 +2,8 @@ import json
 import unittest
 from unittest.mock import MagicMock, patch
 
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 
 from motiprompt.screens import MyRoot
@@ -10,10 +12,13 @@ from motiprompt.screens import MyRoot
 class TestMyRoot(unittest.TestCase):
     def setUp(self):
         self.my_root = MyRoot()
+        self.my_root.quote_text = MagicMock(spec=Label)
+        self.my_root.quote_author = MagicMock(spec=Label)
+        self.my_root.random_quote = MagicMock(spec=GridLayout)
 
     @patch("motiprompt.screens.random.choice")
     @patch("motiprompt.screens.open")
-    def test_get_quote(self, mock_open, mock_random_choice):
+    def test_get_quote_updates_labels(self, mock_open, mock_random_choice):
         # Mock the file content
         mock_file = MagicMock()
         mock_file.read.return_value = json.dumps([{"text": "Test Quote", "author": "Test Author"}])

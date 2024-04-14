@@ -24,9 +24,12 @@ from kivymd.uix.textfield import MDTextField
 class MyRoot(Screen):
     def __init__(self, **kwargs):
         super(MyRoot, self).__init__(**kwargs)
-        self.quote_text = Label()
-        self.quote_author = Label()
-        self.random_quote = GridLayout()
+        Clock.schedule_once(self.initialize_widgets)
+
+    def initialize_widgets(self, *args):
+        self.quote_text = self.ids.quote_text
+        self.quote_author = self.ids.quote_author
+        self.random_quote = self.ids.random_quote
 
     def get_quote(self):
         with open("motiprompt/quotes/default.json", "r") as file:
