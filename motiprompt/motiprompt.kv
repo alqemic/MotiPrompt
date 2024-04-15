@@ -45,9 +45,17 @@
                 text: "-"
                 font_size: 20
         GridLayout:
-            cols: 3
+            cols: 2
             MDButton:
-                size_hint: 0.3, None
+                id: button
+                size: root.width * 0.5, self.height
+                on_release: root.dropdown_menu.open()
+                MDButtonIcon:
+                    icon: "menu"
+                MDButtonText:
+                    text: root.current_set
+            MDButton:
+                size: root.width * 0.5, self.height
                 font_size: 20
                 on_press: root.get_quote()
                 MDButtonIcon:
@@ -55,7 +63,7 @@
                 MDButtonText:
                     text: "Generate quote"
             MDButton:
-                size_hint: 0.3, None
+                size: root.width * 0.5, self.height
                 font_size: 20
                 on_press: root.add_quote()
                 MDButtonIcon:
@@ -63,7 +71,7 @@
                 MDButtonText:
                     text: "Add quote"
             MDButton:
-                size_hint: 0.3, None
+                size: root.width * 0.5, self.height
                 font_size: 20
                 on_press: root.show_quotes()
                 MDButtonIcon:
@@ -86,7 +94,7 @@
         MDButton:
             id: button
             pos_hint: {"center_x": .5, "center_y": .5}
-            on_release: root.dropdown1.open()
+            on_release: root.dropdown_menu.open()
             MDButtonIcon:
                 icon: "menu"
             MDButtonText:

@@ -22,9 +22,32 @@ from kivymd.uix.textfield import MDTextField
 
 
 class MyRoot(Screen):
+    current_set = StringProperty("default")
+
     def __init__(self, **kwargs):
         super(MyRoot, self).__init__(**kwargs)
         Clock.schedule_once(self.initialize_widgets)
+        Clock.schedule_once(self.create_dropdown)
+
+        self.get_list_of_sets()
+
+    def get_list_of_sets(self):
+        self.quote_sets = [f.split(".")[0] for f in os.listdir("motiprompt/quotes") if f.endswith(".json")]
+
+    def create_dropdown(self, *args):
+        menu_items = []
+        for item in self.quote_sets:
+            menu_items.append(
+                {
+                    "text": f"{item}",
+                    "on_release": lambda item=item: self.set_set(item),
+                }
+            )
+        self.dropdown_menu = MDDropdownMenu(items=menu_items, caller=self.ids.button)
+
+    def set_set(self, set):
+        self.current_set = set
+        self.dropdown_menu.dismiss()
 
     def initialize_widgets(self, *args):
         self.quote_text = self.ids.quote_text
@@ -32,7 +55,7 @@ class MyRoot(Screen):
         self.random_quote = self.ids.random_quote
 
     def get_quote(self):
-        with open("motiprompt/quotes/default.json", "r") as file:
+        with open(f"motiprompt/quotes/{self.current_set}.json", "r") as file:
             quotes = json.load(file)
         rquote = random.choice(quotes)
         quote_text = rquote.get("text", "Unknown Text")
@@ -71,11 +94,11 @@ class AddQuote(Screen):
                 "on_release": self.show_dialog,
             }
         )
-        self.dropdown1 = MDDropdownMenu(items=menu_items, caller=self.ids.button)
+        self.dropdown_menu = MDDropdownMenu(items=menu_items, caller=self.ids.button)
 
     def set_set(self, set):
         self.current_set = set
-        self.dropdown1.dismiss()
+        self.dropdown_menu.dismiss()
 
     def show_dialog(self):
         self.new_set_name = MDTextField()
@@ -90,7 +113,7 @@ class AddQuote(Screen):
         self.dialog.open()
 
     def dismiss_dialog(self, *args):
-        self.dropdown1.dismiss()
+        self.dropdown_menu.dismiss()
         self.dialog.dismiss()
 
     def create_set(self, instance):
