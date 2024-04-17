@@ -23,6 +23,13 @@
                 size_hint_y: 1
         GridLayout:
             cols: 1
+            canvas.before:
+                Color:
+                    rgba: 0, 1, 0, 0.5
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [10]
             id: random_quote
             Label:
                 id: quote_text
@@ -34,26 +41,12 @@
                 halign: 'center'
                 valign: 'middle'
             Label:
-                canvas.before:
-                    Color:
-                        rgba: 0, 1, 0, 0.5
-                    RoundedRectangle:
-                        size: self.size
-                        pos: self.pos
-                        radius: [10]
                 id: quote_author
                 text: "-"
                 font_size: 20
         GridLayout:
             cols: 2
-            MDButton:
-                id: button
-                size: root.width * 0.5, self.height
-                on_release: root.dropdown_menu.open()
-                MDButtonIcon:
-                    icon: "menu"
-                MDButtonText:
-                    text: root.current_set
+            valign: "center"
             MDButton:
                 size: root.width * 0.5, self.height
                 font_size: 20
@@ -62,6 +55,29 @@
                     icon: "refresh"
                 MDButtonText:
                     text: "Generate quote"
+            MDButton:
+                id: button
+                style: "elevated"
+                size: root.width * 0.5, self.height
+                text_size: root.size
+                on_release: root.dropdown_menu.open()
+                MDButtonIcon:
+                    icon: "menu"
+                MDButtonText:
+                    text: root.current_set
+        GridLayout:
+            cols: 2
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0.5, 0.5
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [1]
+            Label:
+                text: "Go to:"
+                font_size: 20
+            Widget:
             MDButton:
                 size: root.width * 0.5, self.height
                 font_size: 20
