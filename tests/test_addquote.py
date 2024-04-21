@@ -44,4 +44,10 @@ class TestAddQuote(unittest.TestCase):
 
             # Assert that the new quote is added
             expected_quotes = existing_quotes + [{"text": "This is a new quote", "author": "John Doe"}]
-            mock_file.write.assert_called_once_with(json.dumps(expected_quotes, indent=2))
+            expected_json = json.dumps(expected_quotes, indent=2)
+
+            # Collect all the arguments passed to write
+            write_calls = "".join(call[0][0] for call in mock_file.write.call_args_list)
+
+            # Assert that write was called with the expected JSON string
+            self.assertEqual(write_calls, expected_json)
