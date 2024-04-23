@@ -28,21 +28,19 @@ class MyRoot(Screen):
         super(MyRoot, self).__init__(**kwargs)
         Clock.schedule_once(self.initialize_widgets)
         Clock.schedule_once(self.create_dropdown)
-
         self.get_list_of_sets()
 
     def get_list_of_sets(self):
         self.quote_sets = [f.split(".")[0] for f in os.listdir("motiprompt/quotes") if f.endswith(".json")]
 
     def create_dropdown(self, *args):
-        menu_items = []
-        for item in self.quote_sets:
-            menu_items.append(
-                {
-                    "text": f"{item}",
-                    "on_release": lambda item=item: self.set_set(item),
-                }
-            )
+        menu_items = [
+            {
+                "text": f"{item}",
+                "on_release": lambda item=item: self.set_set(item),
+            }
+            for item in self.quote_sets
+        ]
         self.dropdown_menu = MDDropdownMenu(items=menu_items, caller=self.ids.button)
 
     def set_set(self, set):
@@ -231,14 +229,13 @@ class ShowQuotes(Screen):
         self.manager.current = "main"
 
     def build_dropdown_menu(self):
-        self.dropdown_menu.items.clear()
-        for quote_set in self.quote_sets:
-            self.dropdown_menu.items.append(
-                {
-                    "text": quote_set,
-                    "on_release": lambda x=quote_set: self.select_quote_set(x),
-                }
-            )
+        self.dropdown_menu.items = [
+            {
+                "text": quote_set,
+                "on_release": lambda x=quote_set: self.select_quote_set(x),
+            }
+            for quote_set in self.quote_sets
+        ]
 
     def select_quote_set(self, quote_set):
         self.current_set = quote_set
