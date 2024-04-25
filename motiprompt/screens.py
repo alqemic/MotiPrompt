@@ -19,6 +19,7 @@ from kivymd.uix.dialog import (
 )
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.textfield import MDTextField
+from plyer import notification
 
 
 class MyRoot(Screen):
@@ -61,6 +62,9 @@ class MyRoot(Screen):
 
         self.quote_text.text = f'"{quote_text}"'
         self.quote_author.text = f"~ {quote_author} ~"
+
+    def notify_quote(self):
+        notification.notify(message=f"{self.quote_text.text}\n~ {self.quote_author.text} ~", toast=True)
 
     def add_quote(self):
         self.manager.current = "add_quote"
