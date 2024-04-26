@@ -65,6 +65,14 @@
                     icon: "menu"
                 MDButtonText:
                     text: root.current_set
+            MDButton:
+                size: root.width * 0.5, self.height
+                font_size: 20
+                on_press: root.notify_quote()
+                MDButtonIcon:
+                    icon: "refresh"
+                MDButtonText:
+                    text: "Notify"
         GridLayout:
             cols: 2
             canvas.before:

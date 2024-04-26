@@ -1,6 +1,7 @@
 import json
 import os
 import random
+import time
 
 from kivy.clock import Clock
 from kivy.properties import StringProperty
@@ -64,7 +65,16 @@ class MyRoot(Screen):
         self.quote_author.text = f"~ {quote_author} ~"
 
     def notify_quote(self):
-        notification.notify(message=f"{self.quote_text.text}\n~ {self.quote_author.text} ~", toast=True)
+        notification.notify(
+            title="Moti",
+            message=f"{self.quote_text.text}\n~ {self.quote_author.text} ~",
+            app_name="",
+            app_icon="",
+            timeout=10,
+            ticker="",
+            toast=False,
+        )
+        time.sleep(10)
 
     def add_quote(self):
         self.manager.current = "add_quote"
