@@ -74,7 +74,7 @@
                 MDButtonText:
                     text: "Notify"
         GridLayout:
-            cols: 2
+            cols: 3
             canvas.before:
                 Color:
                     rgba: 0, 0, 0.5, 0.5
@@ -86,8 +86,9 @@
                 text: "Go to:"
                 font_size: 20
             Widget:
+            Widget:
             MDButton:
-                size: root.width * 0.5, self.height
+                size: root.width * 0.3, self.height
                 font_size: 20
                 on_press: root.add_quote()
                 MDButtonIcon:
@@ -95,13 +96,21 @@
                 MDButtonText:
                     text: "Add quote"
             MDButton:
-                size: root.width * 0.5, self.height
+                size: root.width * 0.3, self.height
                 font_size: 20
                 on_press: root.show_quotes()
                 MDButtonIcon:
                     icon: "eye"
                 MDButtonText:
                     text: "Show quotes"
+            MDButton:
+                size: root.width * 0.3, self.height
+                font_size: 20
+                on_press: root.settings()
+                MDButtonIcon:
+                    icon: "eye"
+                MDButtonText:
+                    text: "Settings"
 
 <AddQuote>:
 
@@ -149,3 +158,34 @@
                 on_press: root.save_quote()
                 MDButtonText:
                     text: "Save"
+
+<SettingsScreen>:
+    name: 'settings'
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Notification Settings'
+        Label:
+            text: 'Notification Title'
+        TextInput:
+            id: notification_title
+            text: 'Default Title'
+        Label:
+            text: 'Notification Message'
+        TextInput:
+            id: notification_message
+            text: 'Default Message'
+        MDButton:
+            font_size: 20
+            size_hint: 0.5, None
+            on_press: root.save_settings()
+            MDButtonText:
+                text: "Save"
+        MDButton:
+            font_size: 20
+            size_hint: 0.5, None
+            on_press: root.go_to_main()
+            MDButtonIcon:
+                icon: "arrow-left"
+            MDButtonText:
+                text: "Go Back"

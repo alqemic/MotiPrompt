@@ -2,7 +2,9 @@ import json
 import os
 import random
 import time
+from sys import platform
 
+import plyer
 from kivy.clock import Clock
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
@@ -20,7 +22,8 @@ from kivymd.uix.dialog import (
 )
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.textfield import MDTextField
-from plyer import notification
+
+# from plyer import notification
 
 
 class MyRoot(Screen):
@@ -65,7 +68,9 @@ class MyRoot(Screen):
         self.quote_author.text = f"~ {quote_author} ~"
 
     def notify_quote(self):
-        notification.notify(
+        if platform == "linux":
+            plyer.utils.platform = "linux"  # only for testing purposes !!!
+        plyer.notification.notify(
             title="Moti",
             message=f"{self.quote_text.text}\n~ {self.quote_author.text} ~",
             app_name="",
@@ -81,6 +86,9 @@ class MyRoot(Screen):
 
     def show_quotes(self):
         self.manager.current = "show_quotes"
+
+    def settings(self):
+        self.manager.current = "settings"
 
 
 class AddQuote(Screen):
@@ -256,3 +264,13 @@ class ShowQuotes(Screen):
         self.dropdown_button.text = f"Select Set: {quote_set}"
         self.dropdown_menu.dismiss()
         self.refresh_quotes()
+
+
+class SettingsScreen(Screen):
+    def save_settings(self):
+        # notification_title = self.ids.notification_title.text
+        # notification_message = self.ids.notification_message.text
+        pass
+
+    def go_to_main(self):
+        self.manager.current = "main"
