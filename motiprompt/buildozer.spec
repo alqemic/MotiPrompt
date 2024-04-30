@@ -13,7 +13,7 @@ package.domain = org.test
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,json
+source.include_exts =
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -67,7 +67,7 @@ orientation = portrait
 osx.python_version = 3
 
 # Kivy version to use
-osx.kivy_version = 1.9.1
+osx.kivy_version = 2.3.0
 
 #
 # Android specific
@@ -122,7 +122,7 @@ fullscreen = 0
 #android.ndk_path =
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
-#android.sdk_path =
+#android.sdk_path = ~/Android/Sdk
 
 # (str) ANT directory (if empty, it will be automatically downloaded.)
 #android.ant_path =
