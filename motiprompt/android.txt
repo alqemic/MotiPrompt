@@ -1,0 +1,3 @@
+title=MotiPrompt
+author=alqemic
+orientation=portrait

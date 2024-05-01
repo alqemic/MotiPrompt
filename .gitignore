@@ -5,6 +5,7 @@ __pycache__
 .python-version
 .vscode
 *.egg-info
+.idea
 
 # Docs
 docs/**/*.md
