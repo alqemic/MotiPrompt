@@ -4,10 +4,10 @@
 title = MotiPrompt
 
 # (str) Package name
-package.name = motipromptapp
+package.name = motiprompt
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+package.domain = org.motiprompt
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -22,7 +22,7 @@ source.include_exts =
 #source.exclude_exts = spec
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-#source.exclude_dirs = tests, bin, venv
+source.exclude_dirs = tests, bin, venv
 
 # (list) List of exclusions using pattern matching
 # Do not prefix with './'
@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,plyer,kivy
+requirements = python3==3.11.3,plyer,kivy==2.3.0,https://github.com/kivymd/KivyMD/archive/master.zip,materialyoucolor,asynckivy,asyncgui
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -95,7 +95,7 @@ fullscreen = 0
 
 # (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
-#android.permissions = android.permission.INTERNET, (name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18)
+android.permissions = android.permission.POST_NOTIFICATIONS, android.permission.WRITE_EXTERNAL_STORAGE
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
@@ -270,7 +270,7 @@ fullscreen = 0
 #android.uses_library =
 
 # (str) Android logcat filters to use
-#android.logcat_filters = *:S python:D
+android.logcat_filters = *:S python:D
 
 # (bool) Android logcat only display log for activity's pid
 #android.logcat_pid_only = False
@@ -321,7 +321,7 @@ android.allow_backup = True
 #p4a.fork = kivy
 
 # (str) python-for-android branch to use, defaults to master
-#p4a.branch = master
+p4a.branch = develop
 
 # (str) python-for-android specific commit to use, defaults to HEAD, must be within p4a.branch
 #p4a.commit = HEAD
