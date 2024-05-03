@@ -36,7 +36,7 @@ class MyRoot(Screen):
         self.get_list_of_sets()
 
     def get_list_of_sets(self):
-        self.quote_sets = [f.split(".")[0] for f in os.listdir("motiprompt/quotes") if f.endswith(".json")]
+        self.quote_sets = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
 
     def create_dropdown(self, *args):
         menu_items = [
@@ -58,7 +58,7 @@ class MyRoot(Screen):
         self.random_quote = self.ids.random_quote
 
     def get_quote(self):
-        with open(f"motiprompt/quotes/{self.current_set}.json", "r") as file:
+        with open(f"quotes/{self.current_set}.json", "r") as file:
             quotes = json.load(file)
         rquote = random.choice(quotes)
         quote_text = rquote.get("text", "Unknown Text")
@@ -96,7 +96,7 @@ class AddQuote(Screen):
 
     def __init__(self, **kwargs):
         super(AddQuote, self).__init__(**kwargs)
-        self.quote_sets = [f.split(".")[0] for f in os.listdir("motiprompt/quotes") if f.endswith(".json")]
+        self.quote_sets = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
         Clock.schedule_once(self.create_dropdown)
 
     def create_dropdown(self, *args):
@@ -144,11 +144,11 @@ class AddQuote(Screen):
         if any(c.isspace() for c in new_set):
             self.show_error_dialog("Set name cannot contain spaces!")
             return
-        if os.path.exists(f"motiprompt/quotes/{new_set}.json"):
+        if os.path.exists(f"quotes/{new_set}.json"):
             self.show_error_dialog("Set already exists! Choose different name.")
             return
         self.current_set = new_set
-        with open(f"motiprompt/quotes/{self.current_set}.json", "a") as file:
+        with open(f"quotes/{self.current_set}.json", "a") as file:
             json.dump([], file, indent=2)
         self.dismiss_dialog()
 
@@ -172,12 +172,12 @@ class AddQuote(Screen):
             "author": self.new_quote_author.text,
         }
 
-        with open(f"motiprompt/quotes/{self.current_set}.json", "r") as file:
+        with open(f"quotes/{self.current_set}.json", "r") as file:
             quotes = json.load(file)
 
         quotes.append(new_quote)
 
-        with open(f"motiprompt/quotes/{self.current_set}.json", "w") as file:
+        with open(f"quotes/{self.current_set}.json", "w") as file:
             json.dump(quotes, file, indent=2)
 
     def go_to_main(self):
@@ -207,7 +207,7 @@ class ShowQuotes(Screen):
         self.refresh_quotes()
 
     def get_list_of_sets(self):
-        self.quote_sets = [f.split(".")[0] for f in os.listdir("motiprompt/quotes") if f.endswith(".json")]
+        self.quote_sets = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
 
     def refresh_quotes(self):
         self.layout.clear_widgets()
@@ -226,7 +226,7 @@ class ShowQuotes(Screen):
 
         self.layout.add_widget(self.dropdown_button)
 
-        with open(f"motiprompt/quotes/{self.current_set}.json", "r") as file:
+        with open(f"quotes/{self.current_set}.json", "r") as file:
             quotes = json.load(file)
         for quote in quotes:
             label = Label(
