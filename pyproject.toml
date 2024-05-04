@@ -11,6 +11,7 @@ python = "^3.11"
 kivy = "^2.3.0"
 kivymd = {git = "https://github.com/kivymd/KivyMD.git"}
 plyer = "^2.1.0"
+pyjnius = "^1.6.1"
 
 [tool.black]
 line-length = 150
