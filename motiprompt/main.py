@@ -3,12 +3,9 @@ from kivy.core.window import Window
 from kivy.uix.screenmanager import FadeTransition, ScreenManager
 from kivymd.app import MDApp
 
-from motiprompt.screens import AddQuote, MyRoot, SettingsScreen, ShowQuotes
+from screens import AddQuote, MyRoot, SettingsScreen, ShowQuotes
 
 kivy.require("2.3.0")
-
-Window.clearcolor = (0.5, 0.5, 0.5, 1)
-Window.size = (600, 700)
 
 
 class MotiScreenManager(ScreenManager):

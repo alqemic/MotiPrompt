@@ -23,8 +23,6 @@ from kivymd.uix.dialog import (
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.textfield import MDTextField
 
-# from plyer import notification
-
 
 class MyRoot(Screen):
     current_set = StringProperty("default")
