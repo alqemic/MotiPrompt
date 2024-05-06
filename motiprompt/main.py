@@ -1,8 +1,6 @@
 import kivy
-from kivy.core.window import Window
 from kivy.uix.screenmanager import FadeTransition, ScreenManager
 from kivymd.app import MDApp
-
 from screens import AddQuote, MyRoot, SettingsScreen, ShowQuotes
 
 kivy.require("2.3.0")

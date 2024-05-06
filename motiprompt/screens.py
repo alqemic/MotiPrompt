@@ -6,6 +6,7 @@ from sys import platform
 
 import plyer
 from kivy.clock import Clock
+from kivy.logger import Logger
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -66,18 +67,21 @@ class MyRoot(Screen):
         self.quote_author.text = f"~ {quote_author} ~"
 
     def notify_quote(self):
-        if platform == "linux":
-            plyer.utils.platform = "linux"  # only for testing purposes !!!
-        plyer.notification.notify(
-            title="Moti",
-            message=f"{self.quote_text.text}\n~ {self.quote_author.text} ~",
-            app_name="",
-            app_icon="",
-            timeout=10,
-            ticker="",
-            toast=False,
-        )
-        time.sleep(10)
+        if plyer.utils.platform == "android":
+            from plyer.platforms.android.notification import AndroidNotification
+
+            AndroidNotification().notify(
+                title="Moti",
+                message=f"{self.quote_text.text}\n~ {self.quote_author.text} ~",
+                app_name="",
+                app_icon="",
+                timeout=10,
+                ticker="",
+                toast=False,
+            )
+            time.sleep(10)
+        else:
+            Logger.info(f"Moti: Notifications not supported for platform: '{platform}'")
 
     def add_quote(self):
         self.manager.current = "add_quote"
