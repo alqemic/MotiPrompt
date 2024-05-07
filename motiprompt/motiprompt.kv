@@ -89,6 +89,7 @@
             Widget:
             MDButton:
                 size: root.width * 0.3, self.height
+                size_hint: (0.5, 0.2)
                 font_size: 20
                 on_press: root.add_quote()
                 MDButtonIcon:
@@ -108,9 +109,21 @@
                 font_size: 20
                 on_press: root.settings()
                 MDButtonIcon:
-                    icon: "eye"
+                    icon: "cog-outline"
                 MDButtonText:
                     text: "Settings"
+            Widget:
+                size: root.width * 0.3, self.height
+            MDButton:
+                size: root.width * 0.3, self.height
+                font_size: 20
+                on_press: root.exit_app()
+                MDButtonIcon:
+                    icon: "exit-to-app"
+                MDButtonText:
+                    text: "Exit"
+            Widget:
+                size: root.width * 0.3, self.height
 
 <AddQuote>:
 
@@ -175,17 +188,25 @@
         TextInput:
             id: notification_message
             text: 'Default Message'
-        MDButton:
-            font_size: 20
-            size_hint: 0.5, None
-            on_press: root.save_settings()
-            MDButtonText:
-                text: "Save"
-        MDButton:
-            font_size: 20
-            size_hint: 0.5, None
-            on_press: root.go_to_main()
-            MDButtonIcon:
-                icon: "arrow-left"
-            MDButtonText:
-                text: "Go Back"
+        GridLayout:
+            cols: 3
+            Widget:
+            MDButton:
+                font_size: 20
+                size: root.width * 0.3, self.height
+                size_hint: 0.5, None
+                on_press: root.save_settings()
+                MDButtonText:
+                    text: "Save"
+            Widget:
+            Widget:
+            MDButton:
+                font_size: 20
+                size: root.width * 0.3, self.height
+                size_hint: 0.5, None
+                on_press: root.go_to_main()
+                MDButtonIcon:
+                    icon: "arrow-left"
+                MDButtonText:
+                    text: "Go Back"
+            Widget:

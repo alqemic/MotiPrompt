@@ -13,6 +13,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
+from kivymd.app import MDApp
 from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
 from kivymd.uix.dialog import (
     MDDialog,
@@ -91,6 +92,9 @@ class MyRoot(Screen):
 
     def settings(self):
         self.manager.current = "settings"
+
+    def exit_app(self):
+        MDApp.get_running_app().stop()
 
 
 class AddQuote(Screen):
