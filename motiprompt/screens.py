@@ -244,12 +244,13 @@ class ShowQuotes(Screen):
             self.layout.add_widget(label)
 
         grid = GridLayout(rows=1, cols=3)
-        grid.add_widget(Widget(size_hint_x=0.3))
+        grid.add_widget(Widget(size_hint=(self.width * 0.3, self.height)))
         b = MDButton(on_press=self.go_to_main)
+        b.size_hint = self.width * 0.3, self.height
         b.add_widget(MDButtonIcon(icon="arrow-left"))
         b.add_widget(MDButtonText(text="Go Back"))
         grid.add_widget(b)
-        grid.add_widget(Widget(size_hint_x=0.3))
+        grid.add_widget(Widget(size_hint=(self.width * 0.3, self.height)))
 
         self.layout.add_widget(grid)
 

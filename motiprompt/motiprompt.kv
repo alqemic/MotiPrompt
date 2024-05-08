@@ -156,21 +156,29 @@
             helper_text: "New quote author"
             multiline: False
         GridLayout:
-            cols: 2
+            cols: 3
+            Widget:
             MDButton:
                 font_size: 20
+                size: root.width * 0.3, self.height
+                size_hint: 0.5, None
+                on_press: root.save_quote()
+                MDButtonIcon:
+                    icon: "content-save"
+                MDButtonText:
+                    text: "Save"
+            Widget:
+            Widget:
+            MDButton:
+                font_size: 20
+                size: root.width * 0.3, self.height
                 size_hint: 0.5, None
                 on_press: root.go_to_main()
                 MDButtonIcon:
                     icon: "arrow-left"
                 MDButtonText:
                     text: "Go Back"
-            MDButton:
-                font_size: 20
-                size_hint: 0.5, None
-                on_press: root.save_quote()
-                MDButtonText:
-                    text: "Save"
+            Widget:
 
 <SettingsScreen>:
     name: 'settings'
@@ -196,6 +204,8 @@
                 size: root.width * 0.3, self.height
                 size_hint: 0.5, None
                 on_press: root.save_settings()
+                MDButtonIcon:
+                    icon: "content-save"
                 MDButtonText:
                     text: "Save"
             Widget:
