@@ -10,9 +10,9 @@
         orientation: "vertical"
         GridLayout:
             cols: 2
-            padding: '20dp', 0
+            padding: "20dp", 0
             Image:
-                source: 'assets/icon.png'
+                source: "assets/icon.png"
                 size_hint_y: 1
                 size_hint_x: 0.2
                 height: self.parent.height
@@ -38,8 +38,8 @@
                 height: self.texture_size[1] + 10
                 font_size: 32
                 color: 0.92, 0.45, 0, 1
-                halign: 'center'
-                valign: 'middle'
+                halign: "center"
+                valign: "middle"
             Label:
                 id: quote_author
                 text: "-"
@@ -93,7 +93,7 @@
                 font_size: 20
                 on_press: root.add_quote()
                 MDButtonIcon:
-                    icon: 'plus'
+                    icon: "plus"
                 MDButtonText:
                     text: "Add quote"
             MDButton:
@@ -181,21 +181,27 @@
             Widget:
 
 <SettingsScreen>:
-    name: 'settings'
+    name: "settings"
     BoxLayout:
-        orientation: 'vertical'
+        orientation: "vertical"
         Label:
-            text: 'Notification Settings'
+            text: "Notification Settings"
+            font_size: 60
+            color: 0.92, 0.45, 0, 1
         Label:
-            text: 'Notification Title'
-        TextInput:
+            text: "Notification Title"
+        MDTextField:
             id: notification_title
-            text: 'Default Title'
+            text: "Default Title"
+            helper_text: "Default Title"
+            multiline: False
         Label:
-            text: 'Notification Message'
-        TextInput:
+            text: "Notification Message"
+        MDTextField:
             id: notification_message
-            text: 'Default Message'
+            text: "Default Message"
+            helper_text: "Default Message"
+            multiline: False
         GridLayout:
             cols: 3
             Widget:
