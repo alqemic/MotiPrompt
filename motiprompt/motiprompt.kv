@@ -133,10 +133,19 @@
 
     BoxLayout:
         orientation: "vertical"
-        Label:
-            text: "Add Quote"
-            font_size: 60
-            color: 0.92, 0.45, 0, 1
+        GridLayout:
+            cols: 2
+            padding: "20dp", 0
+            Image:
+                source: "assets/icon.png"
+                size_hint_y: 1
+                size_hint_x: 0.2
+                height: self.parent.height
+            Label:
+                text: "Add Quote"
+                font_size: 60
+                color: 0.92, 0.45, 0, 1
+                size_hint_y: 1
         MDButton:
             id: button
             pos_hint: {"center_x": .5, "center_y": .5}
@@ -184,10 +193,19 @@
     name: "settings"
     BoxLayout:
         orientation: "vertical"
-        Label:
-            text: "Notification Settings"
-            font_size: 60
-            color: 0.92, 0.45, 0, 1
+        GridLayout:
+            cols: 2
+            padding: "20dp", 0
+            Image:
+                source: "assets/icon.png"
+                size_hint_y: 1
+                size_hint_x: 0.2
+                height: self.parent.height
+            Label:
+                text: "Notification Settings"
+                font_size: 60
+                color: 0.92, 0.45, 0, 1
+                size_hint_y: 1
         Label:
             text: "Notification Title"
         MDTextField:
