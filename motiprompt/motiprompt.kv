@@ -220,8 +220,20 @@
             text: "Default Message"
             helper_text: "Default Message"
             multiline: False
+        #Switch:
         GridLayout:
             cols: 3
+            Widget:
+            MDButton:
+                font_size: 20
+                size: root.width * 0.3, self.height
+                size_hint: 0.5, None
+                on_press: app.theme_cls.theme_style = 'Light' if app.theme_cls.theme_style == 'Dark' else 'Dark'
+                MDButtonIcon:
+                    icon: "brightness-4"
+                MDButtonText:
+                    text: "Switch style"
+            Widget:
             Widget:
             MDButton:
                 font_size: 20
