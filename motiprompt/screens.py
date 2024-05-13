@@ -70,17 +70,18 @@ class MyRoot(Screen):
     def notify_quote(self):
         if plyer.utils.platform == "android":
             from plyer.platforms.android.notification import AndroidNotification
+            from plyer.platforms.android.vibrator import AndroidVibrator
 
             AndroidNotification().notify(
                 title="Moti",
-                message=f"{self.quote_text.text}\n~ {self.quote_author.text} ~",
+                message=f"{self.quote_text.text}\n{self.quote_author.text}",
                 app_name="",
                 app_icon="",
                 timeout=10,
                 ticker="",
                 toast=False,
             )
-            time.sleep(10)
+            AndroidVibrator().vibrate(0.1)
         else:
             Logger.info(f"Moti: Notifications not supported for platform: '{platform}'")
 
