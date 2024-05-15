@@ -276,9 +276,7 @@ class ShowQuotes(Screen):
 
 class SettingsScreen(Screen):
     def save_settings(self):
-        # notification_title = self.ids.notification_title.text
-        # notification_message = self.ids.notification_message.text
-        pass
+        Logger.info(f"Moti: increment: '{self.notifications_increment.text} h'")
 
     def go_to_main(self):
         self.manager.current = "main"

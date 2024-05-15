@@ -188,6 +188,9 @@
                 size: root.width / 3, root.height * 0.1
 
 <SettingsScreen>:
+
+    notifications_increment: notifications_increment
+
     name: "settings"
     BoxLayout:
         orientation: "vertical"
@@ -211,11 +214,11 @@
             helper_text: "Default Title"
             multiline: False
         Label:
-            text: "Notification Message"
+            text: "Notifications increment"
         MDTextField:
-            id: notification_message
-            text: "Default Message"
-            helper_text: "Default Message"
+            id: notifications_increment
+            text: "1"
+            helper_text: "Time between notifications [in hours]"
             multiline: False
         #Switch:
         GridLayout:
