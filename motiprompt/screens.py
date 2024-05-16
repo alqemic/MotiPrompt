@@ -27,7 +27,7 @@ from kivymd.uix.textfield import MDTextField
 
 
 class MyRoot(Screen):
-    current_set = StringProperty("default")
+    current_set = StringProperty([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")][0])
 
     def __init__(self, **kwargs):
         super(MyRoot, self).__init__(**kwargs)
@@ -99,7 +99,7 @@ class MyRoot(Screen):
 
 
 class AddQuote(Screen):
-    current_set = StringProperty("default")
+    current_set = StringProperty([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")][0])
 
     def __init__(self, **kwargs):
         super(AddQuote, self).__init__(**kwargs)
@@ -197,7 +197,7 @@ class ShowQuotes(Screen):
         self.bind(size=self._update_text_size)
 
         self.get_list_of_sets()
-        self.current_set = "default"
+        self.current_set = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")][0]
 
         self.layout = BoxLayout(orientation="vertical")
 
