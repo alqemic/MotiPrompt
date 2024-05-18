@@ -26,17 +26,19 @@ from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.textfield import MDTextField
 
 
-class MyRoot(Screen):
+class BaseScreen(Screen):
     current_set = StringProperty([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")][0])
+
+    def __init__(self, **kwargs):
+        super(BaseScreen, self).__init__(**kwargs)
+        self.quote_sets = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
+        Clock.schedule_once(self.create_dropdown)
+
+class MyRoot(BaseScreen):
 
     def __init__(self, **kwargs):
         super(MyRoot, self).__init__(**kwargs)
         Clock.schedule_once(self.initialize_widgets)
-        Clock.schedule_once(self.create_dropdown)
-        self.get_list_of_sets()
-
-    def get_list_of_sets(self):
-        self.quote_sets = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
 
     def create_dropdown(self, *args):
         menu_items = [
@@ -98,13 +100,7 @@ class MyRoot(Screen):
         MDApp.get_running_app().stop()
 
 
-class AddQuote(Screen):
-    current_set = StringProperty([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")][0])
-
-    def __init__(self, **kwargs):
-        super(AddQuote, self).__init__(**kwargs)
-        self.quote_sets = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
-        Clock.schedule_once(self.create_dropdown)
+class AddQuote(BaseScreen):
 
     def create_dropdown(self, *args):
         menu_items = []
@@ -229,7 +225,7 @@ class ShowQuotes(Screen):
         self.dropdown_button.bind(on_release=lambda instance: self.dropdown_menu.open())
         self.dropdown_button.add_widget(MDButtonIcon(icon="menu"))
         self.dropdown_button.add_widget(MDButtonText(text=self.current_set))
-        self.build_dropdown_menu()
+        self.create_dropdown()
 
         self.layout.add_widget(self.dropdown_button)
 
@@ -258,7 +254,7 @@ class ShowQuotes(Screen):
     def go_to_main(self, instance):
         self.manager.current = "main"
 
-    def build_dropdown_menu(self):
+    def create_dropdown(self):
         self.dropdown_menu.items = [
             {
                 "text": quote_set,
