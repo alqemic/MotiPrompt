@@ -47,13 +47,13 @@ class MotiPrompt(MDApp):
         """
         Set the default values for the configs sections.
         """
-        config.setdefaults("My Settings", {"min_val": 0, "max_val": 10})
+        config.setdefaults("MotiPrompt", {"min_val": 7, "max_val": 20, "increment": 1})
 
     def build_settings(self, settings):
         """
         Add our custom section to the default configuration object.
         """
-        settings.add_json_panel("My Settings", self.config, data="[]")
+        settings.add_json_panel("MotiPrompt", self.config, filename="settings.json")
 
     def on_config_change(self, config, section, key, value):
         """

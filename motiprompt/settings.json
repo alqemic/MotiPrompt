@@ -1,0 +1,23 @@
+[
+    {
+        "type": "numeric",
+        "title": "Start",
+        "desc": "From what hour should notifications work",
+        "section": "MotiPrompt",
+        "key": "min_val"
+    },
+    {
+        "type": "numeric",
+        "title": "End",
+        "desc": "To what hour should notifications work",
+        "section": "MotiPrompt",
+        "key": "max_val"
+    },
+    {
+        "type": "numeric",
+        "title": "Increment",
+        "desc": "How often should notifications be send [in hours]",
+        "section": "MotiPrompt",
+        "key": "increment"
+    }
+]
