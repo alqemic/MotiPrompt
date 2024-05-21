@@ -2,12 +2,13 @@ import json
 import os
 import random
 import time
+from datetime import datetime
 from sys import platform
 
 import plyer
 from kivy.clock import Clock
 from kivy.logger import Logger
-from kivy.properties import StringProperty
+from kivy.properties import NumericProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -34,7 +35,11 @@ class BaseScreen(Screen):
         self.quote_sets = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
         Clock.schedule_once(self.create_dropdown)
 
+
 class MyRoot(BaseScreen):
+    increment = NumericProperty()
+    start = NumericProperty()
+    end = NumericProperty()
 
     def __init__(self, **kwargs):
         super(MyRoot, self).__init__(**kwargs)
@@ -74,16 +79,20 @@ class MyRoot(BaseScreen):
             from plyer.platforms.android.notification import AndroidNotification
             from plyer.platforms.android.vibrator import AndroidVibrator
 
-            AndroidNotification().notify(
-                title="Moti",
-                message=f"{self.quote_text.text}\n{self.quote_author.text}",
-                app_name="",
-                app_icon="",
-                timeout=10,
-                ticker="",
-                toast=False,
-            )
-            AndroidVibrator().vibrate(0.1)
+            while True:
+                self.get_quote()
+                current_time = datetime.now().strftime("%H:%M")
+                AndroidNotification().notify(
+                    title="Moti",
+                    message=f"{self.quote_text.text}\n{self.quote_author.text}\n{current_time}",
+                    app_name="",
+                    app_icon="",
+                    timeout=10,
+                    ticker="",
+                    toast=False,
+                )
+                AndroidVibrator().vibrate(0.1)
+                time.sleep(self.increment * 3600)
         else:
             Logger.info(f"Moti: Notifications not supported for platform: '{platform}'")
 
@@ -101,7 +110,6 @@ class MyRoot(BaseScreen):
 
 
 class AddQuote(BaseScreen):
-
     def create_dropdown(self, *args):
         menu_items = []
         for item in self.quote_sets:
