@@ -13,5 +13,4 @@ docs/**/*.md
 # APK creation
 motiprompt/bin
 motiprompt/.buildozer
-*.ini
 *.log
