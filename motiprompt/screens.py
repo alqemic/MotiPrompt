@@ -11,6 +11,7 @@ from kivy.logger import Logger
 from kivy.properties import NumericProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
@@ -222,6 +223,12 @@ class ShowQuotes(Screen):
 
     def refresh_quotes(self):
         self.layout.clear_widgets()
+
+        self.header = GridLayout(cols=2)
+        self.header.add_widget(Image(source="assets/icon.png", size_hint_y=1, size_hint_x=0.2, height=self.layout.height))
+        self.header.add_widget(Label(text="Show Quotes", font_size=72, color=(0.92, 0.45, 0, 1), size_hint_y=1))
+        self.layout.add_widget(self.header)
+
         items = [{"text": f} for f in self.quote_sets]
         self.dropdown_button = MDButton(
             pos_hint={"center_x": 0.5, "center_y": 0.9},
