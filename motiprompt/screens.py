@@ -103,9 +103,6 @@ class MyRoot(BaseScreen):
     def show_quotes(self):
         self.manager.current = "show_quotes"
 
-    def settings(self):
-        self.manager.current = "settings"
-
     def exit_app(self):
         MDApp.get_running_app().stop()
 
@@ -283,11 +280,3 @@ class ShowQuotes(Screen):
         self.dropdown_button.text = f"Select Set: {quote_set}"
         self.dropdown_menu.dismiss()
         self.refresh_quotes()
-
-
-class SettingsScreen(Screen):
-    def save_settings(self):
-        Logger.info(f"Moti: increment: '{self.notifications_increment.text} h'")
-
-    def go_to_main(self):
-        self.manager.current = "main"
