@@ -103,6 +103,9 @@ class MyRoot(BaseScreen):
     def show_quotes(self):
         self.manager.current = "show_quotes"
 
+    def delete_quote(self):
+        self.manager.current = "delete_quote"
+
     def exit_app(self):
         MDApp.get_running_app().stop()
 
@@ -280,3 +283,11 @@ class ShowQuotes(Screen):
         self.dropdown_button.text = f"Select Set: {quote_set}"
         self.dropdown_menu.dismiss()
         self.refresh_quotes()
+
+
+class DeleteQuote(Screen):
+    def __init__(self, **kwargs):
+        super(DeleteQuote, self).__init__(**kwargs)
+
+    def go_to_main(self):
+        self.manager.current = "main"

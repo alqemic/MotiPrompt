@@ -76,35 +76,46 @@
                     MDButtonText:
                         text: "Notify"
             GridLayout:
-                cols: 3
+                cols: 2
                 MDButton:
                     style: "elevated"
-                    size: root.width / 3, root.height * 0.15
+                    size: root.width / 2, root.height * 0.15
                     size_hint: (0.5, 0.2)
                     font_size: 20
                     on_press: root.add_quote()
                     MDButtonIcon:
                         icon: "plus"
                     MDButtonText:
-                        text: "Add quote"
+                        text: "Add Quote"
                 MDButton:
                     style: "elevated"
-                    size: root.width / 3, root.height * 0.15
+                    size: root.width / 2, root.height * 0.15
+                    font_size: 20
+                    on_press: root.delete_quote()
+                    MDButtonIcon:
+                        icon: "delete"
+                    MDButtonText:
+                        text: "Delete Quote"
+                MDButton:
+                    style: "elevated"
+                    size: root.width / 2, root.height * 0.15
                     font_size: 20
                     on_press: root.show_quotes()
                     MDButtonIcon:
                         icon: "eye"
                     MDButtonText:
-                        text: "Show quotes"
+                        text: "Show Quotes"
                 MDButton:
                     style: "elevated"
-                    size: root.width / 3, root.height * 0.15
+                    size: root.width / 2, root.height * 0.15
                     font_size: 20
                     on_press: app.open_settings()
                     MDButtonIcon:
                         icon: "cog-outline"
                     MDButtonText:
                         text: "Settings"
+            GridLayout:
+                cols: 3
                 Widget:
                     size: root.width / 3, root.height * 0.1
                 MDButton:
@@ -173,6 +184,44 @@
                     text: "Save"
             Widget:
                 size: root.width / 3, root.height * 0.15
+            Widget:
+                size: root.width / 3, root.height * 0.1
+            MDButton:
+                font_size: 20
+                size: root.width / 3, root.height * 0.1
+                size_hint: 0.5, None
+                on_press: root.go_to_main()
+                MDButtonIcon:
+                    icon: "arrow-left"
+                MDButtonText:
+                    text: "Go Back"
+            Widget:
+                size: root.width / 3, root.height * 0.1
+
+<DeleteQuote>:
+
+    current_set: self.current_set
+    # quote_text: quote_text
+
+    BoxLayout:
+        orientation: "vertical"
+        GridLayout:
+            cols: 2
+            Image:
+                source: "assets/icon.png"
+                size_hint_y: 1
+                size_hint_x: 0.2
+                height: self.parent.height
+            Label:
+                text: "Delete Quote"
+                font_size: 60
+                color: 0.92, 0.45, 0, 1
+                size_hint_y: 1
+        BoxLayout:
+            id: dquotes
+            orientation: "vertical"
+        GridLayout:
+            cols: 3
             Widget:
                 size: root.width / 3, root.height * 0.1
             MDButton:
