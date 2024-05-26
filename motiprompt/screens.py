@@ -288,6 +288,79 @@ class ShowQuotes(Screen):
 class DeleteQuote(Screen):
     def __init__(self, **kwargs):
         super(DeleteQuote, self).__init__(**kwargs)
+        Clock.schedule_once(self.initialize_widgets)
+        self.get_list_of_sets()
+        self.current_set = self.quote_sets[0]
 
     def go_to_main(self):
         self.manager.current = "main"
+
+    def initialize_widgets(self, *args):
+        self.box = self.ids.box
+        self.dquotes = self.ids.dquotes
+
+    def on_enter(self, *args):
+        self.get_list_of_sets()
+        self.refresh_quotes()
+
+    def get_list_of_sets(self):
+        self.quote_sets = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
+
+    def create_dropdown(self):
+        self.dropdown_menu.items = [
+            {
+                "text": quote_set,
+                "on_release": lambda x=quote_set: self.select_quote_set(x),
+            }
+            for quote_set in self.quote_sets
+        ]
+
+    def select_quote_set(self, quote_set):
+        self.current_set = quote_set
+        self.dropdown_button.text = f"Select Set: {quote_set}"
+        self.dropdown_menu.dismiss()
+        self.refresh_quotes()
+
+    def refresh_quotes(self):
+        self.dquotes.clear_widgets()
+
+        items = [{"text": f} for f in self.quote_sets]
+        self.dropdown_button = MDButton(
+            pos_hint={"center_x": 0.5, "center_y": 0.9},
+        )
+        self.dropdown_menu = MDDropdownMenu(
+            caller=self.dropdown_button,
+            items=items,
+        )
+        self.dropdown_button.bind(on_release=lambda instance: self.dropdown_menu.open())
+        self.dropdown_button.add_widget(MDButtonIcon(icon="menu"))
+        self.dropdown_button.add_widget(MDButtonText(text=self.current_set))
+        self.create_dropdown()
+
+        self.dquotes.add_widget(self.dropdown_button)
+
+        with open(f"quotes/{self.current_set}.json", "r") as file:
+            quotes = json.load(file)
+        for quote in quotes:
+            b = MDButton(
+                size_hint=(self.box.width, None),
+                on_press=self.delete_quote,
+            )
+            bt = MDButtonText(text=f"{quote.get('text', 'Unknown Text')} ~ {quote.get('author', 'Unknown Author')} ~")
+            b.add_widget(bt)
+            self.dquotes.add_widget(b)
+
+    def delete_quote(self, instance):
+        with open(f"quotes/{self.current_set}.json", "r") as file:
+            quotes = json.load(file)
+        for child in instance.children:
+            if isinstance(child, MDButtonText):
+                button_text = child.text
+                break
+        for i, quote in enumerate(quotes):
+            if f"{quote.get('text', 'Unknown Text')} ~ {quote.get('author', 'Unknown Author')} ~" == button_text:
+                del quotes[i]
+                break
+        with open(f"quotes/{self.current_set}.json", "w") as file:
+            json.dump(quotes, file, indent=2)
+        self.refresh_quotes()

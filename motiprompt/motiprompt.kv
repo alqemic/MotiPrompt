@@ -201,9 +201,12 @@
 <DeleteQuote>:
 
     current_set: self.current_set
+    dquotes: dquotes
+    box: box
     # quote_text: quote_text
 
     BoxLayout:
+        id: box
         orientation: "vertical"
         GridLayout:
             cols: 2
@@ -217,9 +220,10 @@
                 font_size: 60
                 color: 0.92, 0.45, 0, 1
                 size_hint_y: 1
-        BoxLayout:
-            id: dquotes
-            orientation: "vertical"
+        ScrollView:
+            GridLayout:
+                id: dquotes
+                cols: 1
         GridLayout:
             cols: 3
             Widget:
