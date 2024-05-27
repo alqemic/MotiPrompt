@@ -326,6 +326,7 @@ class DeleteQuote(Screen):
 
         items = [{"text": f} for f in self.quote_sets]
         self.dropdown_button = MDButton(
+            style="tonal",
             pos_hint={"center_x": 0.5, "center_y": 0.9},
         )
         self.dropdown_menu = MDDropdownMenu(
@@ -344,23 +345,40 @@ class DeleteQuote(Screen):
         for quote in quotes:
             b = MDButton(
                 size_hint=(self.box.width, None),
-                on_press=self.delete_quote,
+                on_press=self.show_confirmation_dialog,
             )
             bt = MDButtonText(text=f"{quote.get('text', 'Unknown Text')} ~ {quote.get('author', 'Unknown Author')} ~")
             b.add_widget(bt)
             self.dquotes.add_widget(b)
 
+    def show_confirmation_dialog(self, instance):
+        yes_button = MDButton(MDButtonText(text="Yes"), on_release=self.delete_quote, style="text")
+        no_button = MDButton(MDButtonText(text="No"), on_release=self.dismiss_confirmation_dialog, style="text")
+        button_box = BoxLayout(orientation="horizontal")
+        button_box.add_widget(yes_button)
+        button_box.add_widget(no_button)
+        for child in instance.children:
+            if isinstance(child, MDButtonText):
+                self.quote_text = child.text
+                break
+        self.confirmation_dialog = MDDialog(
+            MDDialogHeadlineText(text="Do you want to delete this quote?"),
+            MDDialogSupportingText(text=self.quote_text),
+            MDDialogButtonContainer(Widget(), button_box, Widget()),
+        )
+        self.confirmation_dialog.open()
+
+    def dismiss_confirmation_dialog(self, *args):
+        self.confirmation_dialog.dismiss()
+
     def delete_quote(self, instance):
         with open(f"quotes/{self.current_set}.json", "r") as file:
             quotes = json.load(file)
-        for child in instance.children:
-            if isinstance(child, MDButtonText):
-                button_text = child.text
-                break
         for i, quote in enumerate(quotes):
-            if f"{quote.get('text', 'Unknown Text')} ~ {quote.get('author', 'Unknown Author')} ~" == button_text:
+            if f"{quote.get('text', 'Unknown Text')} ~ {quote.get('author', 'Unknown Author')} ~" == self.quote_text:
                 del quotes[i]
                 break
         with open(f"quotes/{self.current_set}.json", "w") as file:
             json.dump(quotes, file, indent=2)
+        self.dismiss_confirmation_dialog()
         self.refresh_quotes()
