@@ -6,12 +6,12 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 
-from motiprompt.screens import MyRoot
+from motiprompt.screens import MainScreen
 
 
-class TestMyRoot(unittest.TestCase):
+class TestMainScreen(unittest.TestCase):
     def setUp(self):
-        self.my_root = MyRoot()
+        self.my_root = MainScreen()
         self.my_root.quote_text = MagicMock(spec=Label)
         self.my_root.quote_author = MagicMock(spec=Label)
         self.my_root.random_quote = MagicMock(spec=GridLayout)

@@ -29,22 +29,29 @@ from kivymd.uix.textfield import MDTextField
 
 
 class BaseScreen(Screen):
-    current_set = StringProperty([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")][0])
+    current_set = StringProperty(sorted([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")])[0])
 
     def __init__(self, **kwargs):
         super(BaseScreen, self).__init__(**kwargs)
-        self.quote_sets = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
-        Clock.schedule_once(self.create_dropdown)
+        self.get_list_of_sets()
+        # Clock.schedule_once(self.create_dropdown)
+
+    def get_list_of_sets(self):
+        self.quote_sets = sorted([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")])
+
+    def go_to_main(self, *args):
+        self.manager.current = "main"
 
 
-class MyRoot(BaseScreen):
+class MainScreen(BaseScreen):
     increment = NumericProperty()
     start = NumericProperty()
     end = NumericProperty()
 
     def __init__(self, **kwargs):
-        super(MyRoot, self).__init__(**kwargs)
+        super(MainScreen, self).__init__(**kwargs)
         Clock.schedule_once(self.initialize_widgets)
+        Clock.schedule_once(self.create_dropdown)
 
     def create_dropdown(self, *args):
         menu_items = [
@@ -111,6 +118,10 @@ class MyRoot(BaseScreen):
 
 
 class AddQuote(BaseScreen):
+    def __init__(self, **kwargs):
+        super(AddQuote, self).__init__(**kwargs)
+        Clock.schedule_once(self.create_dropdown)
+
     def create_dropdown(self, *args):
         menu_items = []
         for item in self.quote_sets:
@@ -192,18 +203,11 @@ class AddQuote(BaseScreen):
         with open(f"quotes/{self.current_set}.json", "w") as file:
             json.dump(quotes, file, indent=2)
 
-    def go_to_main(self):
-        self.manager.current = "main"
 
-
-class ShowQuotes(Screen):
+class ShowQuotes(BaseScreen):
     def __init__(self, **kwargs):
         super(ShowQuotes, self).__init__(**kwargs)
         self.bind(size=self._update_text_size)
-
-        self.get_list_of_sets()
-        self.current_set = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")][0]
-
         self.layout = BoxLayout(orientation="vertical")
 
         self.refresh_quotes()
@@ -219,7 +223,7 @@ class ShowQuotes(Screen):
         self.refresh_quotes()
 
     def get_list_of_sets(self):
-        self.quote_sets = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
+        self.quote_sets = sorted([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")])
 
     def refresh_quotes(self):
         self.layout.clear_widgets()
@@ -266,9 +270,6 @@ class ShowQuotes(Screen):
 
         self.layout.add_widget(grid)
 
-    def go_to_main(self, instance):
-        self.manager.current = "main"
-
     def create_dropdown(self):
         self.dropdown_menu.items = [
             {
@@ -285,15 +286,10 @@ class ShowQuotes(Screen):
         self.refresh_quotes()
 
 
-class DeleteQuote(Screen):
+class DeleteQuote(BaseScreen):
     def __init__(self, **kwargs):
         super(DeleteQuote, self).__init__(**kwargs)
         Clock.schedule_once(self.initialize_widgets)
-        self.get_list_of_sets()
-        self.current_set = self.quote_sets[0]
-
-    def go_to_main(self):
-        self.manager.current = "main"
 
     def initialize_widgets(self, *args):
         self.box = self.ids.box
@@ -304,9 +300,9 @@ class DeleteQuote(Screen):
         self.refresh_quotes()
 
     def get_list_of_sets(self):
-        self.quote_sets = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
+        self.quote_sets = sorted([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")])
 
-    def create_dropdown(self):
+    def create_dropdown(self, *args):
         self.dropdown_menu.items = [
             {
                 "text": quote_set,

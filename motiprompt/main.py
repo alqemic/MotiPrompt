@@ -3,7 +3,7 @@ from kivy.logger import Logger
 from kivy.uix.screenmanager import FadeTransition, ScreenManager
 from kivy.uix.settings import SettingsWithTabbedPanel
 from kivymd.app import MDApp
-from screens import AddQuote, DeleteQuote, MyRoot, ShowQuotes
+from screens import AddQuote, DeleteQuote, MainScreen, ShowQuotes
 
 kivy.require("2.3.0")
 
@@ -14,7 +14,7 @@ class MotiScreenManager(ScreenManager):
 
         self.transition = FadeTransition()
 
-        root = MyRoot(name="main")
+        root = MainScreen(name="main")
         # root.increment = self.config.get("MotiPrompt", "increment")
         # root.start = self.config.get("MotiPrompt", "min_val")
         # root.end = self.config.get("MotiPrompt", "max_val")
