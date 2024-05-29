@@ -53,6 +53,10 @@ class MainScreen(BaseScreen):
         Clock.schedule_once(self.initialize_widgets)
         Clock.schedule_once(self.create_dropdown)
 
+    def on_enter(self):
+        self.get_list_of_sets()
+        self.create_dropdown()
+
     def create_dropdown(self, *args):
         menu_items = [
             {
@@ -370,11 +374,38 @@ class DeleteQuote(BaseScreen):
     def delete_quote(self, instance):
         with open(f"quotes/{self.current_set}.json", "r") as file:
             quotes = json.load(file)
-        for i, quote in enumerate(quotes):
-            if f"{quote.get('text', 'Unknown Text')} ~ {quote.get('author', 'Unknown Author')} ~" == self.quote_text:
-                del quotes[i]
-                break
-        with open(f"quotes/{self.current_set}.json", "w") as file:
-            json.dump(quotes, file, indent=2)
+        if len(quotes) <= 1:
+            self.delete_set_confirmation()
+        else:
+            for i, quote in enumerate(quotes):
+                if f"{quote.get('text', 'Unknown Text')} ~ {quote.get('author', 'Unknown Author')} ~" == self.quote_text:
+                    del quotes[i]
+                    break
+            with open(f"quotes/{self.current_set}.json", "w") as file:
+                json.dump(quotes, file, indent=2)
         self.dismiss_confirmation_dialog()
         self.refresh_quotes()
+
+    def delete_set_confirmation(self):
+        yes_button = MDButton(MDButtonText(text="Yes"), on_release=self.delete_set, style="text")
+        no_button = MDButton(MDButtonText(text="No"), on_release=self.dismiss_set_confirmation_dialog, style="text")
+        button_box = BoxLayout(orientation="horizontal")
+        button_box.add_widget(yes_button)
+        button_box.add_widget(no_button)
+        self.set_confirmation_dialog = MDDialog(
+            MDDialogHeadlineText(text="Do you want to delete this set?"),
+            MDDialogSupportingText(text=f"This is the last quote in '{self.current_set}'. Set will be deleted."),
+            MDDialogButtonContainer(Widget(), button_box, Widget()),
+        )
+        self.set_confirmation_dialog.open()
+
+    def dismiss_set_confirmation_dialog(self, *args):
+        self.set_confirmation_dialog.dismiss()
+
+    def delete_set(self, *args):
+        os.remove(f"quotes/{self.current_set}.json")
+        self.get_list_of_sets()
+        for s in self.manager.screens:
+            s.current_set = sorted([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")])[0]
+        self.refresh_quotes()
+        self.set_confirmation_dialog.dismiss()
