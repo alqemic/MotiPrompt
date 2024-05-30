@@ -29,7 +29,8 @@ from kivymd.uix.textfield import MDTextField
 
 
 class BaseScreen(Screen):
-    current_set = StringProperty(sorted([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")])[0])
+    quote_files = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
+    current_set = StringProperty(sorted(quote_files)[0]) if quote_files else StringProperty('')
 
     def __init__(self, **kwargs):
         super(BaseScreen, self).__init__(**kwargs)
