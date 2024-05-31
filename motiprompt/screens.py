@@ -30,12 +30,11 @@ from kivymd.uix.textfield import MDTextField
 
 class BaseScreen(Screen):
     quote_files = [f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")]
-    current_set = StringProperty(sorted(quote_files)[0]) if quote_files else StringProperty('')
+    current_set = StringProperty(sorted(quote_files)[0]) if quote_files else StringProperty("")
 
     def __init__(self, **kwargs):
         super(BaseScreen, self).__init__(**kwargs)
         self.get_list_of_sets()
-        # Clock.schedule_once(self.create_dropdown)
 
     def get_list_of_sets(self):
         self.quote_sets = sorted([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")])
