@@ -1,3 +1,4 @@
+import configparser
 import json
 import os
 import random
@@ -75,6 +76,12 @@ class MainScreen(BaseScreen):
         self.quote_text = self.ids.quote_text
         self.quote_author = self.ids.quote_author
         self.random_quote = self.ids.random_quote
+        if os.path.exists("motiprompt.ini"):
+            config = configparser.ConfigParser()
+            config.read("motiprompt.ini")
+            self.increment = int(config.get("MotiPrompt", "increment"))
+            self.start = int(config.get("MotiPrompt", "min_val"))
+            self.end = int(config.get("MotiPrompt", "max_val"))
 
     def get_quote(self):
         with open(f"quotes/{self.current_set}.json", "r") as file:

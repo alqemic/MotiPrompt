@@ -1,3 +1,5 @@
+import configparser
+
 import kivy
 from kivy.logger import Logger
 from kivy.uix.screenmanager import FadeTransition, ScreenManager
@@ -43,8 +45,8 @@ class MotiPrompt(MDApp):
 
         self.settings_cls = MySettingsWithTabbedPanel
 
-        sm = MotiScreenManager()
-        return sm
+        self.sm = MotiScreenManager()
+        return self.sm
 
     def build_config(self, config):
         """
@@ -69,6 +71,11 @@ class MotiPrompt(MDApp):
         The settings panel has been closed.
         """
         Logger.info("main.py: App.close_settings: {0}".format(settings))
+        config = configparser.ConfigParser()
+        config.read("motiprompt.ini")
+        self.sm.get_screen("main").increment = config.getint("MotiPrompt", "increment")
+        self.sm.get_screen("main").start = config.getint("MotiPrompt", "min_val")
+        self.sm.get_screen("main").end = config.getint("MotiPrompt", "max_val")
         super(MotiPrompt, self).close_settings(settings)
 
 
