@@ -98,12 +98,12 @@ class MainScreen(BaseScreen):
             from plyer.platforms.android.notification import AndroidNotification
             from plyer.platforms.android.vibrator import AndroidVibrator
 
-            while True:
+            while self.start <= datetime.now().hour < self.end:
                 self.get_quote()
                 current_time = datetime.now().strftime("%H:%M")
                 AndroidNotification().notify(
                     title="Moti",
-                    message=f"{self.quote_text.text}\n{self.quote_author.text}\n{current_time}",
+                    message=f"{self.quote_text.text} {self.quote_author.text} {current_time}",
                     app_name="",
                     app_icon="",
                     timeout=10,
