@@ -1,4 +1,6 @@
 import configparser
+import json
+import os
 
 import kivy
 from kivy.logger import Logger
@@ -17,9 +19,6 @@ class MotiScreenManager(ScreenManager):
         self.transition = FadeTransition()
 
         root = MainScreen(name="main")
-        # root.increment = self.config.get("MotiPrompt", "increment")
-        # root.start = self.config.get("MotiPrompt", "min_val")
-        # root.end = self.config.get("MotiPrompt", "max_val")
         add_quote = AddQuote(name="add_quote")
         show_quotes = ShowQuotes(name="show_quotes")
         del_quote = DeleteQuote(name="delete_quote")
@@ -52,12 +51,31 @@ class MotiPrompt(MDApp):
         """
         Set the default values for the configs sections.
         """
-        config.setdefaults("MotiPrompt", {"min_val": 7, "max_val": 20, "increment": 1})
+        config.setdefaults("MotiPrompt", {"min_val": 7, "max_val": 20, "increment": 1, "selected_set": self.get_list_of_sets()[0]})
+
+    def get_list_of_sets(self):
+        """
+        Get the list of available quote sets.
+        """
+        return sorted([f.split(".")[0] for f in os.listdir("quotes") if f.endswith(".json")])
 
     def build_settings(self, settings):
         """
         Add our custom section to the default configuration object.
         """
+        # Load the settings from the JSON file
+        with open("settings.json", "r") as f:
+            settings_data = json.load(f)
+
+        # Update the options for the "selected_set" key
+        for item in settings_data:
+            if item["key"] == "selected_set":
+                item["options"] = self.get_list_of_sets()
+
+        # Write the updated settings back to the JSON file
+        with open("settings.json", "w") as f:
+            json.dump(settings_data, f, indent=4)
+
         settings.add_json_panel("MotiPrompt", self.config, filename="settings.json")
 
     def on_config_change(self, config, section, key, value):
@@ -76,6 +94,7 @@ class MotiPrompt(MDApp):
         self.sm.get_screen("main").increment = config.getint("MotiPrompt", "increment")
         self.sm.get_screen("main").start = config.getint("MotiPrompt", "min_val")
         self.sm.get_screen("main").end = config.getint("MotiPrompt", "max_val")
+        self.sm.get_screen("main").selected_set = config.get("MotiPrompt", "selected_set")
         super(MotiPrompt, self).close_settings(settings)
 
 

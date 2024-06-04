@@ -19,5 +19,13 @@
         "desc": "How often should notifications be send [in hours]",
         "section": "MotiPrompt",
         "key": "increment"
+    },
+    {
+        "type": "options",
+        "title": "Set name",
+        "desc": "Choose the set",
+        "section": "MotiPrompt",
+        "key": "selected_set",
+        "options": []
     }
 ]

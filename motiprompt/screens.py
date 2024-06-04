@@ -48,6 +48,7 @@ class MainScreen(BaseScreen):
     increment = NumericProperty()
     start = NumericProperty()
     end = NumericProperty()
+    selected_set = StringProperty()
 
     def __init__(self, **kwargs):
         super(MainScreen, self).__init__(**kwargs)
@@ -82,6 +83,7 @@ class MainScreen(BaseScreen):
             self.increment = int(config.get("MotiPrompt", "increment"))
             self.start = int(config.get("MotiPrompt", "min_val"))
             self.end = int(config.get("MotiPrompt", "max_val"))
+            self.selected_set = config.get("MotiPrompt", "selected_set")
 
     def get_quote(self):
         with open(f"quotes/{self.current_set}.json", "r") as file:
@@ -94,6 +96,7 @@ class MainScreen(BaseScreen):
         self.quote_author.text = f"~ {quote_author} ~"
 
     def notify_quote(self):
+        Logger.info(f"Moti: Notify: set='{self.current_set}', increment='{self.increment}', start='{self.start}', end='{self.end}'")
         if plyer.utils.platform == "android":
             from plyer.platforms.android.notification import AndroidNotification
             from plyer.platforms.android.vibrator import AndroidVibrator
