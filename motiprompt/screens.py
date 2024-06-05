@@ -2,7 +2,6 @@ import configparser
 import json
 import os
 import random
-import time
 from datetime import datetime
 from sys import platform
 
@@ -96,25 +95,22 @@ class MainScreen(BaseScreen):
         self.quote_author.text = f"~ {quote_author} ~"
 
     def notify_quote(self):
-        Logger.info(f"Moti: Notify: set='{self.current_set}', increment='{self.increment}', start='{self.start}', end='{self.end}'")
         if plyer.utils.platform == "android":
             from plyer.platforms.android.notification import AndroidNotification
             from plyer.platforms.android.vibrator import AndroidVibrator
 
-            while self.start <= datetime.now().hour < self.end:
-                self.get_quote()
-                current_time = datetime.now().strftime("%H:%M")
-                AndroidNotification().notify(
-                    title="Moti",
-                    message=f"{self.quote_text.text} {self.quote_author.text} {current_time}",
-                    app_name="",
-                    app_icon="",
-                    timeout=10,
-                    ticker="",
-                    toast=False,
-                )
-                AndroidVibrator().vibrate(0.1)
-                time.sleep(self.increment * 3600)
+            self.get_quote()
+            current_time = datetime.now().strftime("%H:%M")
+            AndroidNotification().notify(
+                title="Moti",
+                message=f"{self.quote_text.text} {self.quote_author.text} {current_time}",
+                app_name="",
+                app_icon="",
+                timeout=10,
+                ticker="",
+                toast=False,
+            )
+            AndroidVibrator().vibrate(0.1)
         else:
             Logger.info(f"Moti: Notifications not supported for platform: '{platform}'")
 
