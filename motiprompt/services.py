@@ -80,3 +80,8 @@ class QuoteService(Service):
 
     def on_stop(self):
         self.stop()
+
+
+if __name__ == "__main__":
+    service = QuoteService()
+    service.notify_quote()
