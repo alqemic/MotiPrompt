@@ -3,7 +3,6 @@ import json
 import os
 
 import kivy
-from jnius import JavaException, autoclass
 from kivy.logger import Logger
 from kivy.uix.screenmanager import FadeTransition, ScreenManager
 from kivy.uix.settings import SettingsWithTabbedPanel
@@ -44,15 +43,6 @@ class MotiPrompt(MDApp):
         self.theme_cls.primary_palette = "Olive"
 
         self.settings_cls = MySettingsWithTabbedPanel
-
-        SERVICE_NAME = "{packagename}.{servicename}".format(packagename="org.motiprompt.motiprompt", servicename="QuoteService")
-        try:
-            service = autoclass(SERVICE_NAME)
-            mActivity = autoclass("org.kivy.android.PythonActivity").mActivity
-            argument = ""
-            service.start(mActivity, argument)
-        except JavaException as ex:
-            print(f"Java Exception occurred: {ex}")
 
         self.sm = MotiScreenManager()
         return self.sm
